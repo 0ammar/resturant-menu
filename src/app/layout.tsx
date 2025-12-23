@@ -9,13 +9,12 @@ export const metadata: Metadata = {
     default: 'Restaurant Menu',
   },
   description: 'The best restaurant in town',
+  icons: {
+    icon: '/log.png',
+  },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
