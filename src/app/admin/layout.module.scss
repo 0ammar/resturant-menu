@@ -1,0 +1,66 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: $color-black;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacings-md $spacings-xl;
+  background: rgba($color-white, 0.05);
+  border-bottom: 1px solid rgba($color-gold, 0.3);
+
+  h1 {
+    font-size: $font-sizes-xl;
+    font-weight: $font-weight-bold;
+    color: $color-gold;
+  }
+
+  @include respond(sm) {
+    padding: $spacings-sm $spacings-md;
+
+    h1 {
+      font-size: $font-sizes-lg;
+    }
+  }
+}
+
+.logoutBtn {
+  display: flex;
+  align-items: center;
+  gap: $spacings-xs;
+  background: rgba(255, 68, 68, 0.2);
+  color: #ff4444;
+  border: 1px solid #ff4444;
+  padding: $spacings-xs $spacings-md;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  font-weight: $font-weight-bold;
+  font-size: $font-sizes-sm;
+  transition: all $transition-base;
+
+  &:hover {
+    background: #ff4444;
+    color: $color-white;
+  }
+
+  @include respond(sm) {
+    padding: $spacings-xs $spacings-sm;
+    font-size: $font-sizes-xs;
+
+    span {
+      display: none;
+    }
+  }
+}
+
+.content {
+  flex: 1;
+  overflow-y: auto;
+}

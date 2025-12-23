@@ -3,21 +3,22 @@
 
 .categoryNav {
   width: 100%;
-  padding: 0.8rem 0;
+  padding: 1.5rem 0;
 }
 
 .container {
-  max-width: 1320px;
-  margin: 0 auto;
-  padding: 0 1rem;
+  max-width: 900px; 
+  margin: 20px auto 0;
+  padding: 0 $spacings-lg;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  direction: ltr !important; 
+  direction: ltr !important;
 
   @include respond(sm) {
-    padding: 0 0.2rem;
+    padding: $spacings-md $spacings-md;
     gap: 0.4rem;
+    max-width: 100%;
   }
 }
 
@@ -30,11 +31,11 @@
   padding: 0;
   background: rgba($color-gold, 0.1);
   border: 1px solid rgba($color-gold, 0.4);
-  border-radius: 50%;
+  border-radius: $radius-full;
   color: $color-gold;
   cursor: pointer;
   flex-shrink: 0;
-  transition: all 0.2s;
+  transition: all $transition-base;
 
   &:hover {
     background: $color-gold;
@@ -60,6 +61,8 @@
   scroll-behavior: smooth;
   -ms-overflow-style: none;
   scrollbar-width: none;
+  cursor: grab;
+  user-select: none;
 
   &::-webkit-scrollbar {
     display: none;
@@ -71,17 +74,17 @@
 }
 
 .categoryBtn {
-  padding: 0.5rem 0.9rem;
-  border-radius: 999px;
+  padding: 0.5rem 0.85rem; // أقل من 0.9rem
+  border-radius: $radius-pill;
   background: rgba($color-white, 0.04);
   border: 1px solid rgba($color-gold, 0.35);
   color: $color-white;
   font-family: "Montserrat", sans-serif;
-  font-size: 0.8rem;
+  font-size: $font-sizes-sm;
   font-weight: $font-weight-bold;
   white-space: nowrap;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all $transition-base;
   flex-shrink: 0;
 
   &:hover {
@@ -97,6 +100,6 @@
 
   @include respond(sm) {
     padding: 0.4rem 0.7rem;
-    font-size: 0.7rem;
+    font-size: $font-sizes-xs;
   }
 }

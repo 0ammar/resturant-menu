@@ -1,6 +1,6 @@
 "use client";
 
-import { useLanguage } from '@/contexts/LanguageContext';
+import { useLanguage } from '@/lib/LanguageContext';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import type { Category } from '@/lib/types';
 import useCategoryScroll from './CategoryNav.logic';
@@ -36,20 +36,17 @@ const CategoryNav = ({ categories, activeCategory, onCategoryChange }: CategoryN
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseUp}
         >
-          {categories.map((c) => {
-            const isActive = activeCategory === c.id;
-            return (
-              <button
-                key={c.id}
-                type="button"
-                className={styles.categoryBtn}
-                data-active={isActive}
-                onClick={() => onCategoryChange(c.id)}
-              >
-                {language === 'en' ? c.name : c.nameAr}
-              </button>
-            );
-          })}
+          {categories.map((c) => (
+            <button
+              key={c.id}
+              type="button"
+              className={styles.categoryBtn}
+              data-active={activeCategory === c.id}
+              onClick={() => onCategoryChange(c.id)}
+            >
+              {language === 'en' ? c.name : c.nameAr}
+            </button>
+          ))}
         </div>
 
         <button 

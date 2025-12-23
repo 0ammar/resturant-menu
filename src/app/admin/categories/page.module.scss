@@ -1,0 +1,161 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.page {
+  max-width: $container-max-width;
+  margin: 0 auto;
+  padding: $spacings-xl $spacings-md;
+}
+
+.loading {
+  text-align: center;
+  padding: $spacings-xxl;
+  color: rgba($color-white, 0.6);
+  font-size: $font-sizes-lg;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacings-xl;
+
+  h2 {
+    color: $color-gold;
+    font-size: $font-sizes-xxl;
+    font-weight: $font-weight-bold;
+  }
+
+  @include respond(sm) {
+    margin-bottom: $spacings-lg;
+
+    h2 {
+      font-size: $font-sizes-xl;
+    }
+  }
+}
+
+.addBtn {
+  display: flex;
+  align-items: center;
+  gap: $spacings-xs;
+  background: $color-gold;
+  color: $color-black;
+  border: none;
+  padding: $spacings-sm $spacings-lg;
+  border-radius: $radius-sm;
+  font-weight: $font-weight-bold;
+  font-size: $font-sizes-md;
+  cursor: pointer;
+  transition: transform $transition-base;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  @include respond(sm) {
+    padding: $spacings-xs $spacings-md;
+    font-size: $font-sizes-sm;
+
+    span {
+      display: none;
+    }
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $spacings-lg;
+
+  @include respond(lg) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @include respond(md) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacings-md;
+  }
+
+  @include respond(sm) {
+    grid-template-columns: repeat(2, 1fr); /* ✅ 2 columns على mobile */
+    gap: $spacings-sm;
+  }
+}
+
+.card {
+  background: rgba($color-white, 0.05);
+  padding: $spacings-lg;
+  border-radius: $radius-md;
+  border: 1px solid rgba($color-gold, 0.3);
+  text-align: center;
+  cursor: pointer;
+  transition: all $transition-base $ease-smooth;
+
+  &:hover {
+    transform: translateY(-5px);
+    border-color: rgba($color-gold, 0.6);
+    box-shadow: 0 8px 20px rgba($color-gold, 0.15);
+  }
+
+  h3 {
+    color: $color-white;
+    font-size: $font-sizes-lg;
+    font-weight: $font-weight-bold;
+    margin-bottom: $spacings-xs;
+  }
+
+  p {
+    color: rgba($color-white, 0.6);
+    font-size: $font-sizes-md;
+    margin-bottom: $spacings-md;
+  }
+
+  @include respond(sm) {
+    padding: $spacings-md;
+
+    h3 {
+      font-size: $font-sizes-sm;
+    }
+
+    p {
+      font-size: $font-sizes-xs;
+    }
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: $spacings-sm;
+
+  button {
+    background: transparent;
+    border: 1px solid rgba($color-gold, 0.3);
+    color: $color-gold;
+    width: 32px;
+    height: 32px;
+    border-radius: $radius-full;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all $transition-base;
+
+    &:hover {
+      background: rgba($color-gold, 0.2);
+      border-color: $color-gold;
+      transform: scale(1.1);
+    }
+
+    @include respond(sm) {
+      width: 28px;
+      height: 28px;
+
+      svg {
+        width: 14px;
+        height: 14px;
+      }
+    }
+  }
+}

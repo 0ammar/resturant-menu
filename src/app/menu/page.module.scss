@@ -10,14 +10,25 @@
   }
 }
 
+.loading,
+.empty {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  color: rgba($color-white, 0.6);
+  font-size: $font-sizes-lg;
+
+  @include respond(sm) {
+    padding: 2rem 1rem;
+    font-size: $font-sizes-md;
+  }
+}
+
 .container {
-  max-width: 1320px;
+  @include container;
   margin: 1.5rem auto;
-  padding: 0 1rem;
 
   @include respond(sm) {
     margin: 1rem auto;
-    padding: 0 0.8rem;
   }
 }
 

@@ -10,24 +10,21 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 1rem;
+  padding: 0 map.get($spacings, xl);
   background: $color-black;
-  border-bottom: 1px solid rgba($color-gold, 0.2);
+  border-bottom: 2px solid rgba($color-gold, 0.2);
   z-index: $z-header;
 
-  @include respond(sm) {
-    padding: 0.4rem 0.8rem;
+  @include respond(md) {
+    border-bottom: 2px solid rgba($color-gold, 0.2);
+    padding: 0 map.get($spacings, md);
   }
 }
 
 .leftSection {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-
-  @include respond(sm) {
-    gap: 0.4rem;
-  }
+  gap: map.get($spacings, sm);
 }
 
 .burgerBtn,
@@ -35,17 +32,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   padding: 0;
   background: transparent;
   color: $color-gold;
-  border: 1px solid $color-gold;
+  border: 2px solid $color-gold;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all $transition-base;
   font-family: "Montserrat", sans-serif;
   font-weight: $font-weight-bold;
-  font-size: 0.7rem;
+  font-size: map.get($font-sizes, xs);
   text-decoration: none;
   flex-shrink: 0;
 
@@ -55,9 +52,10 @@
   }
 
   @include respond(sm) {
-    width: 30px;
-    height: 30px;
-    font-size: 0.65rem;
+    width: 32px;
+    height: 32px;
+    font-size: 10px;
+    border: 1px solid $color-gold;
 
     svg {
       width: 14px;
@@ -67,11 +65,11 @@
 }
 
 .burgerBtn {
-  border-radius: 6px;
+  border-radius: map.get($radius, sm);
 }
 
 .iconBtn {
-  border-radius: 50%;
+  border-radius: map.get($radius, full);
 }
 
 .brand {
@@ -82,65 +80,60 @@
 }
 
 .logo {
-  width: 70px;
-  height: 70px;
+  width: 100px;
+  height: 100px;
   object-fit: contain;
 
   @include respond(sm) {
-    width: 55px;
-    height: 55px;
+    width: 80px;
+    height: 80px;
   }
 }
 
 .menuOverlay {
   position: fixed;
-  top: 75px;
-  left: 1rem;
-  width: 130px;
+  top: 85px;
+  left: map.get($spacings, xl);
+  width: 140px;
   background: $color-black;
   border: 1px solid $color-gold;
-  border-radius: 8px;
+  border-radius: map.get($radius, md);
   z-index: 9999;
 
   &.rtl {
     left: auto;
-    right: 1rem;
+    right: map.get($spacings, xl);
   }
 
   @include respond(sm) {
-    top: 65px;
-    left: 0.8rem;
-    width: 115px;
+    top: 70px;
+    left: map.get($spacings, md);
+    width: 120px;
 
     &.rtl {
-      right: 0.8rem;
+      right: map.get($spacings, md);
     }
   }
 }
 
 .menuContent {
-  padding: 0.6rem;
+  padding: map.get($spacings, sm);
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
-
-  @include respond(sm) {
-    padding: 0.5rem;
-    gap: 0.25rem;
-  }
+  gap: map.get($spacings, xs);
 }
 
 .socialLink {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
-  padding: 0.6rem 0.8rem;
+  gap: map.get($spacings, sm);
+  padding: map.get($spacings, sm) map.get($spacings, md);
   color: $color-gold;
-  font-size: 0.8rem;
+  font-size: map.get($font-sizes, sm);
   font-weight: $font-weight-medium;
   text-decoration: none;
-  border-radius: 6px;
-  transition: all 0.2s;
+  border-radius: map.get($radius, sm);
+  transition: all $transition-base;
 
   &:hover {
     background: rgba($color-gold, 0.1);
@@ -153,9 +146,9 @@
   }
 
   @include respond(sm) {
-    padding: 0.5rem 0.6rem;
-    font-size: 0.75rem;
-    gap: 0.6rem;
+    padding: map.get($spacings, xs) map.get($spacings, sm);
+    font-size: map.get($font-sizes, xs);
+    gap: map.get($spacings, xs);
 
     svg {
       width: 14px;
@@ -169,4 +162,5 @@
   inset: 0;
   background: rgba(0, 0, 0, 0.4);
   z-index: 9998;
+  animation: fadeIn 0.2s;
 }

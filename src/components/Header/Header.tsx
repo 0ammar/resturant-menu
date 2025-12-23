@@ -3,8 +3,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Phone, Facebook, Instagram, MessageCircle, Menu, X } from 'lucide-react';
-import { useLanguage } from '@/contexts/LanguageContext';
-import { headerData } from '@/data/header';
+import { useLanguage } from '@/lib/LanguageContext';
+import { headerData } from '@/lib/header';
 import useHeader from './Header.logic';
 import styles from './Header.module.scss';
 

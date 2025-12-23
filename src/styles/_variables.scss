@@ -29,9 +29,24 @@ $font-sizes: (
   xxxl: 48px,
 );
 
+$spacings-xs: 8px;
+$spacings-sm: 12px;
+$spacings-md: 16px;
+$spacings-lg: 24px;
+$spacings-xl: 32px;
+$spacings-xxl: 48px;
+
+$font-sizes-xs: 11px;
+$font-sizes-sm: 14px;
+$font-sizes-md: 16px;
+$font-sizes-lg: 20px;
+$font-sizes-xl: 24px;
+$font-sizes-xxl: 32px;
+$font-sizes-xxxl: 48px;
+
 $font-weight-medium: 500;
 $font-weight-bold: 700;
-
+$radius-lg: 15;
 $radius: (
   sm: 6px,
   md: 12px,
@@ -39,11 +54,15 @@ $radius: (
   pill: 999px,
 );
 
+$radius-sm: 6px;
+$radius-md: 12px;
+$radius-full: 100%;
+$radius-pill: 999px;
+
 $color-gold: #f9d457;
 $color-black: #000000;
 $color-red: #8B0000;
 $color-white: #FFFFFF;
-
 $color-bg: $color-black;
 $color-text: $color-white;
 

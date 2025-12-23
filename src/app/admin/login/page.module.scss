@@ -1,0 +1,110 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: $spacings-lg;
+  background-color: $color-black;
+}
+
+.card {
+  background: rgba($color-white, 0.05);
+  padding: $spacings-xl;
+  border-radius: $radius-md;
+  border: 1px solid rgba($color-gold, 0.3);
+  width: 100%;
+  max-width: 380px;
+  text-align: center;
+  animation: fadeInUp 0.6s $ease-smooth;
+
+  .logo {
+    margin: 0 auto $spacings-lg;
+  }
+
+  h2 {
+    color: $color-gold;
+    margin-bottom: $spacings-lg;
+    font-size: $font-sizes-xl;
+    font-weight: $font-weight-bold;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: $spacings-md;
+
+    input {
+      padding: $spacings-sm;
+      border-radius: $radius-sm;
+      border: 1px solid rgba($color-gold, 0.3);
+      background: rgba($color-black, 0.5);
+      color: $color-white;
+      font-size: $font-sizes-md;
+      transition: border-color $transition-base;
+
+      &::placeholder {
+        color: rgba($color-white, 0.5);
+      }
+
+      &:focus {
+        outline: none;
+        border-color: $color-gold;
+      }
+
+      &:disabled {
+        opacity: 0.5;
+      }
+    }
+
+    button {
+      background: $color-gold;
+      color: $color-black;
+      font-weight: $font-weight-bold;
+      border: none;
+      border-radius: $radius-sm;
+      padding: $spacings-sm;
+      font-size: $font-sizes-md;
+      cursor: pointer;
+      transition: all $transition-base;
+
+      &:hover:not(:disabled) {
+        transform: translateY(-2px);
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .error {
+    color: #ff4444;
+    font-size: $font-sizes-sm;
+    margin-top: $spacings-md;
+    padding: $spacings-xs;
+    background: rgba(255, 68, 68, 0.1);
+    border-radius: $radius-sm;
+    border: 1px solid rgba(255, 68, 68, 0.3);
+  }
+
+  @include respond(sm) {
+    padding: $spacings-lg;
+
+    h2 {
+      font-size: $font-sizes-lg;
+      margin-bottom: $spacings-md;
+    }
+
+    form {
+      input,
+      button {
+        padding: $spacings-xs;
+        font-size: $font-sizes-sm;
+      }
+    }
+  }
+}

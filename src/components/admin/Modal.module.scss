@@ -1,0 +1,183 @@
+@use "@/styles/variables" as *;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modal {
+  background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
+  border: 1px solid rgba($color-gold, 0.3);
+  border-radius: $radius-lg;
+  padding: 1.8rem;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+
+  h3 {
+    color: $color-gold;
+    margin: 0 0 1.5rem 0;
+    font-size: $font-sizes-xl;
+  }
+
+  p {
+    color: rgba($color-white, 0.9);
+    margin: 0 0 1rem 0;
+    line-height: 1.6;
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    background: rgba($color-white, 0.05);
+    border: 1px solid rgba($color-gold, 0.3);
+    border-radius: $radius-sm;
+    color: $color-white;
+    font-size: $font-sizes-sm;
+    transition: all $transition-base;
+
+    &:focus {
+      outline: none;
+      border-color: $color-gold;
+      background: rgba($color-white, 0.08);
+    }
+
+    &::placeholder {
+      color: rgba($color-white, 0.4);
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+    font-family: inherit;
+  }
+}
+
+.closeBtn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba($color-gold, 0.1);
+  border: 1px solid rgba($color-gold, 0.3);
+  border-radius: $radius-full;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $color-gold;
+  cursor: pointer;
+  transition: all $transition-base;
+
+  &:hover {
+    background: $color-gold;
+    color: $color-black;
+  }
+}
+
+.buttons {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.confirm,
+.cancel {
+  flex: 1;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: $radius-sm;
+  font-weight: $font-weight-bold;
+  font-size: $font-sizes-sm;
+  cursor: pointer;
+  transition: all $transition-base;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.confirm {
+  background: $color-gold;
+  color: $color-black;
+
+  &:hover:not(:disabled) {
+    background: lighten($color-gold, 10%);
+    transform: translateY(-2px);
+  }
+}
+
+.cancel {
+  background: rgba($color-white, 0.1);
+  color: $color-white;
+  border: 1px solid rgba($color-white, 0.2);
+
+  &:hover:not(:disabled) {
+    background: rgba($color-white, 0.15);
+  }
+}
+
+.error {
+  color: #ff6b6b !important;
+  font-size: $font-sizes-sm;
+  margin: 0.5rem 0 !important;
+}
+
+.warning {
+  color: rgba($color-gold, 0.8) !important;
+  font-size: $font-sizes-sm;
+  margin: 0.5rem 0 1rem 0 !important;
+}
+
+.imageUpload {
+  margin-bottom: 1rem;
+}
+
+.preview {
+  margin-bottom: 1rem;
+  border-radius: $radius-sm;
+  overflow: hidden;
+  border: 1px solid rgba($color-gold, 0.3);
+
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+
+.uploadBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: rgba($color-gold, 0.1);
+  border: 1px dashed rgba($color-gold, 0.4);
+  border-radius: $radius-sm;
+  color: $color-gold;
+  cursor: pointer;
+  transition: all $transition-base;
+
+  &:hover {
+    background: rgba($color-gold, 0.15);
+    border-color: $color-gold;
+  }
+
+  span {
+    font-size: $font-sizes-sm;
+    font-weight: $font-weight-bold;
+  }
+}

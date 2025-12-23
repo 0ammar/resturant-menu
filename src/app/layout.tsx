@@ -1,6 +1,15 @@
 import { Header } from '@/components';
-import { LanguageProvider } from '@/contexts/LanguageContext';
+import { LanguageProvider } from '@/lib/LanguageContext';
+import type { Metadata } from 'next';
 import '@/styles/globals.scss';
+
+export const metadata: Metadata = {
+  title: {
+    template: '%s | Restaurant Menu',
+    default: 'Restaurant Menu',
+  },
+  description: 'The best restaurant in town',
+};
 
 export default function RootLayout({
   children,
@@ -8,10 +17,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html>
+    <html lang="en">
       <body>
         <LanguageProvider>
-          <Header/>
+          <Header />
           {children}
         </LanguageProvider>
       </body>
