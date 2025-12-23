@@ -51,8 +51,8 @@ export default function MenuPage() {
       <div className={styles.container}>
         {filteredItems.length > 0 ? (
           <div className={styles.grid}>
-            {filteredItems.map((meal, idx) => (
-              <MealCard key={meal.id} meal={meal} index={idx} />
+            {filteredItems.map((meal) => (
+              <MealCard key={meal.id} meal={meal} />
             ))}
           </div>
         ) : (

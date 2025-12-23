@@ -1,42 +1,42 @@
-import { NextResponse } from 'next/server';
-import { createToken } from '@/lib/auth';
+import { NextRequest, NextResponse } from 'next/server';
+import { validateCredentials, createSession, deleteSession } from '@/lib/auth';
 
-export const runtime = "nodejs";
-const ADMIN_USERNAME = 'admin';
-const ADMIN_PASSWORD = 'admin123'; 
-
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
     const { username, password } = await request.json();
 
-    if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
-      const token = await createToken({ username, role: 'admin' });
-      
-      const response = NextResponse.json({ success: true });
-      response.cookies.set('admin-token', token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
-        maxAge: 60 * 60 * 24,
-      });
-      
-      return response;
+    if (!username || !password) {
+      return NextResponse.json(
+        { error: 'Username and password are required' },
+        { status: 400 }
+      );
+    }
+
+    if (validateCredentials(username, password)) {
+      await createSession();
+      return NextResponse.json({ success: true });
     }
 
     return NextResponse.json(
       { error: 'Invalid credentials' },
       { status: 401 }
     );
-  } catch (error) {
+  } catch {
     return NextResponse.json(
-      { error: 'Login failed' },
+      { error: 'Authentication failed' },
       { status: 500 }
     );
   }
 }
 
 export async function DELETE() {
-  const response = NextResponse.json({ success: true });
-  response.cookies.delete('admin-token');
-  return response;
+  try {
+    await deleteSession();
+    return NextResponse.json({ success: true });
+  } catch {
+    return NextResponse.json(
+      { error: 'Logout failed' },
+      { status: 500 }
+    );
+  }
 }

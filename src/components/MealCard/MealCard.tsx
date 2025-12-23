@@ -1,40 +1,38 @@
 "use client";
 
-import Image from 'next/image';
 import { useLanguage } from '@/lib/LanguageContext';
+import Image from 'next/image';
 import type { Product } from '@/lib/types';
 import styles from './MealCard.module.scss';
 
 interface MealCardProps {
   meal: Product;
-  index?: number;
 }
 
-const MealCard = ({ meal, index = 0 }: MealCardProps) => {
-  const { language, t } = useLanguage();
-  const dir = language === 'ar' ? 'rtl' : 'ltr';
-  const title = language === 'en' ? meal.name : meal.nameAr;
-  const desc = language === 'en' ? meal.description : meal.descriptionAr;
-  const price = typeof meal.price === 'number' ? meal.price : 0;
+export const MealCard = ({ meal }: MealCardProps) => {
+  const { language, t, dir } = useLanguage();
+
+  const name = language === 'ar' ? meal.nameAr : meal.name;
+  const description = language === 'ar' ? meal.descriptionAr : meal.description;
+  const imgSrc = meal.image || '/product-1.jpg';
 
   return (
     <div className={styles.card} data-dir={dir}>
-      <div className={styles.content}>
-        <h3 className={styles.name}>{title}</h3>
-        <p className={styles.desc}>{desc}</p>
-        <span className={styles.price}>
-          {price.toFixed(2)} {t.common.currency}
-        </span>
-      </div>
       <Image
-        src={meal.image || '/product-1.jpg'}
-        alt={title}
-        width={95}
-        height={75}
+        src={imgSrc}
+        alt={name}
+        width={130}
+        height={100}
         className={styles.img}
       />
+
+      <div className={styles.content}>
+        <h3 className={styles.name}>{name}</h3>
+        {description && <p className={styles.desc}>{description}</p>}
+        <span className={styles.price}>
+          {meal.price.toFixed(2)} {t.common.currency}
+        </span>
+      </div>
     </div>
   );
 };
-
-export default MealCard;

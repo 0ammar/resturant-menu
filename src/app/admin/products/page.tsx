@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { useSearchParams } from "next/navigation";
 import { Plus, Edit2, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { Modal } from "@/components";
@@ -12,10 +11,12 @@ import styles from "./page.module.scss";
 
 type ModalMode = "add" | "edit" | "delete" | null;
 
-export default function ProductsPage() {
+type Props = {
+  categoryId?: string;
+};
+
+export default function ProductsPageClient({ categoryId }: Props) {
   const { t } = useLanguage();
-  const searchParams = useSearchParams();
-  const categoryId = searchParams.get("categoryId") || undefined;
 
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -32,13 +33,13 @@ export default function ProductsPage() {
   ];
 
   const fetchUrl = useMemo(() => {
-    return categoryId ? `/api/products?categoryId=${categoryId}` : '/api/products';
+    return categoryId ? `/api/products?categoryId=${categoryId}` : "/api/products";
   }, [categoryId]);
 
   const fetchProducts = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch(fetchUrl, { cache: 'no-store' });
+      const res = await fetch(fetchUrl, { cache: "no-store" });
       const data = await res.json();
       setProducts(Array.isArray(data) ? data : []);
     } catch (error) {
@@ -53,28 +54,39 @@ export default function ProductsPage() {
     fetchProducts();
   }, [fetchProducts]);
 
-  const handleSubmit = async (data: Record<string, any>) => {
+  const handleSubmit = async (data: Record<string, unknown>) => {
     if (!modalMode) return;
 
     try {
       if (modalMode === "delete" && selectedProduct) {
         await fetch(`/api/products/${selectedProduct.id}`, { method: "DELETE" });
-        if (selectedProduct.image && selectedProduct.image !== '/product-1.jpg') {
+
+        if (selectedProduct.image && selectedProduct.image !== "/product-1.jpg") {
           await deleteImage(selectedProduct.image).catch(console.error);
         }
-        setProducts(prev => prev.filter(p => p.id !== selectedProduct.id));
+
+        setProducts((prev) => prev.filter((p) => p.id !== selectedProduct.id));
       } else {
+        const priceValue =
+          typeof data.price === "string"
+            ? parseFloat(data.price)
+            : typeof data.price === "number"
+            ? data.price
+            : 0;
+
         const payload = {
           ...data,
           categoryId,
-          price: typeof data.price === 'number' ? data.price : parseFloat(data.price) || 0,
+          price: priceValue,
         };
 
-        const url = modalMode === "edit" && selectedProduct
-          ? `/api/products/${selectedProduct.id}`
-          : "/api/products";
+        const url =
+          modalMode === "edit" && selectedProduct
+            ? `/api/products/${selectedProduct.id}`
+            : "/api/products";
 
         const method = modalMode === "edit" ? "PUT" : "POST";
+
         const res = await fetch(url, {
           method,
           headers: { "Content-Type": "application/json" },
@@ -84,9 +96,9 @@ export default function ProductsPage() {
         const saved = await res.json();
 
         if (modalMode === "add") {
-          setProducts(prev => [saved, ...prev]);
+          setProducts((prev) => [saved, ...prev]);
         } else {
-          setProducts(prev => prev.map(p => p.id === saved.id ? saved : p));
+          setProducts((prev) => prev.map((p) => (p.id === saved.id ? saved : p)));
         }
       }
     } catch (error) {
@@ -101,8 +113,11 @@ export default function ProductsPage() {
     <div className={styles.page}>
       <div className={styles.header}>
         <h2>{t.admin.products}</h2>
-        <button 
-          onClick={() => { setSelectedProduct(null); setModalMode("add"); }} 
+        <button
+          onClick={() => {
+            setSelectedProduct(null);
+            setModalMode("add");
+          }}
           className={styles.addBtn}
         >
           <Plus size={18} />
@@ -113,7 +128,7 @@ export default function ProductsPage() {
       {products.length > 0 ? (
         <div className={styles.grid}>
           {products.map((product) => {
-            const price = typeof product.price === 'number' ? product.price : 0;
+            const price = typeof product.price === "number" ? product.price : 0;
             const imgSrc = product.image || "/product-1.jpg";
 
             return (
@@ -125,19 +140,27 @@ export default function ProductsPage() {
                 <div className={styles.content}>
                   <h3>{product.name}</h3>
                   <p>{product.nameAr}</p>
-                  <span className={styles.price}>{price.toFixed(2)} {t.common.currency}</span>
+                  <span className={styles.price}>
+                    {price.toFixed(2)} {t.common.currency}
+                  </span>
                 </div>
 
                 <div className={styles.actions}>
-                  <button 
-                    title="Edit" 
-                    onClick={() => { setSelectedProduct(product); setModalMode("edit"); }}
+                  <button
+                    title="Edit"
+                    onClick={() => {
+                      setSelectedProduct(product);
+                      setModalMode("edit");
+                    }}
                   >
                     <Edit2 size={16} />
                   </button>
-                  <button 
-                    title="Delete" 
-                    onClick={() => { setSelectedProduct(product); setModalMode("delete"); }}
+                  <button
+                    title="Delete"
+                    onClick={() => {
+                      setSelectedProduct(product);
+                      setModalMode("delete");
+                    }}
                   >
                     <Trash2 size={16} />
                   </button>
@@ -160,8 +183,13 @@ export default function ProductsPage() {
             : t.admin.addProduct
         }
         fields={modalMode !== "delete" ? productFields : undefined}
-        initialData={selectedProduct || undefined}
-        onClose={() => { setModalMode(null); setSelectedProduct(null); }}
+        initialData={
+          selectedProduct ? (selectedProduct as unknown as Record<string, unknown>) : undefined
+        }
+        onClose={() => {
+          setModalMode(null);
+          setSelectedProduct(null);
+        }}
         onSubmit={handleSubmit}
       />
     </div>

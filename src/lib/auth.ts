@@ -1,28 +1,29 @@
-import { jwtVerify, SignJWT } from 'jose';
+import { cookies } from 'next/headers';
 
-const secret = new TextEncoder().encode(process.env.JWT_SECRET || 'your-secret-key');
+const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
 
-export const createToken = async (payload: any) => {
-  return await new SignJWT(payload)
-    .setProtectedHeader({ alg: 'HS256' })
-    .setExpirationTime('24h')
-    .sign(secret);
-};
+export function validateCredentials(username: string, password: string): boolean {
+  return username === ADMIN_USERNAME && password === ADMIN_PASSWORD;
+}
 
-export const verifyToken = async (token: string) => {
-  try {
-    const { payload } = await jwtVerify(token, secret);
-    return payload;
-  } catch {
-    return null;
-  }
-};
+export async function createSession(): Promise<void> {
+  const cookieStore = await cookies();
+  cookieStore.set('admin-session', 'true', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    maxAge: 60 * 60 * 24, // 24 hours
+    path: '/',
+  });
+}
 
-export const hashPassword = async (password: string) => {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(password);
-  const hash = await crypto.subtle.digest('SHA-256', data);
-  return Array.from(new Uint8Array(hash))
-    .map(b => b.toString(16).padStart(2, '0'))
-    .join('');
-};
+export async function deleteSession(): Promise<void> {
+  const cookieStore = await cookies();
+  cookieStore.delete('admin-session');
+}
+
+export async function isAuthenticated(): Promise<boolean> {
+  const cookieStore = await cookies();
+  return cookieStore.get('admin-session')?.value === 'true';
+}

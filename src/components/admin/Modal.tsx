@@ -20,14 +20,14 @@ interface ModalProps {
   mode: 'add' | 'edit' | 'delete' | null;
   title: string;
   fields?: Field[];
-  initialData?: Record<string, any>;
+  initialData?: Record<string, unknown>;
   onClose: () => void;
-  onSubmit: (data: Record<string, any>) => Promise<void>;
+  onSubmit: (data: Record<string, unknown>) => Promise<void>;
 }
 
 export const Modal = ({ mode, title, fields = [], initialData, onClose, onSubmit }: ModalProps) => {
   const { t } = useLanguage();
-  const [formData, setFormData] = useState<Record<string, any>>({});
+  const [formData, setFormData] = useState<Record<string, unknown>>({});
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>('');
   const [loading, setLoading] = useState(false);
@@ -39,7 +39,9 @@ export const Modal = ({ mode, title, fields = [], initialData, onClose, onSubmit
   useEffect(() => {
     if (mode === 'edit' && initialData) {
       setFormData(initialData);
-      if (initialData.image) setImagePreview(initialData.image);
+      if (typeof initialData.image === 'string') {
+        setImagePreview(initialData.image);
+      }
     } else {
       setFormData({});
       setImageFile(null);
@@ -77,7 +79,7 @@ export const Modal = ({ mode, title, fields = [], initialData, onClose, onSubmit
     setError('');
 
     try {
-      let finalData = { ...formData };
+      const finalData = { ...formData };
 
       if (imageFile) {
         const imageUrl = await uploadImage(imageFile);
@@ -86,14 +88,17 @@ export const Modal = ({ mode, title, fields = [], initialData, onClose, onSubmit
 
       await onSubmit(finalData);
       onClose();
-    } catch (err: any) {
-      setError(err.message || 'Operation failed');
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Operation failed';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
   };
 
   if (!mode || !mounted) return null;
+
+  const initialName = typeof initialData?.name === 'string' ? initialData.name : '';
 
   return createPortal(
     <div className={styles.overlay} onClick={onClose}>
@@ -106,7 +111,7 @@ export const Modal = ({ mode, title, fields = [], initialData, onClose, onSubmit
 
         {mode === 'delete' ? (
           <>
-            <p>{t.admin.confirmDelete} <strong>{initialData?.name}</strong>?</p>
+            <p>{t.admin.confirmDelete} <strong>{initialName}</strong>?</p>
             <p className={styles.warning}>{t.admin.confirmDeleteMsg}</p>
             {error && <p className={styles.error}>{error}</p>}
             <div className={styles.buttons}>
@@ -144,7 +149,7 @@ export const Modal = ({ mode, title, fields = [], initialData, onClose, onSubmit
                 <textarea
                   key={field.name}
                   placeholder={field.label}
-                  value={formData[field.name] || ''}
+                  value={String(formData[field.name] || '')}
                   onChange={(e) => setFormData({ ...formData, [field.name]: e.target.value })}
                   disabled={loading}
                   rows={field.rows || 2}
@@ -155,7 +160,7 @@ export const Modal = ({ mode, title, fields = [], initialData, onClose, onSubmit
                   key={field.name}
                   type={field.type || 'text'}
                   placeholder={field.label}
-                  value={formData[field.name] || ''}
+                  value={String(formData[field.name] || '')}
                   onChange={(e) => setFormData({ ...formData, [field.name]: e.target.value })}
                   disabled={loading}
                   required={field.required}

@@ -114,7 +114,6 @@
   color: $color-black;
 
   &:hover:not(:disabled) {
-    background: lighten($color-gold, 10%);
     transform: translateY(-2px);
   }
 }

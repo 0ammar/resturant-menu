@@ -1,21 +1,23 @@
-import { NextResponse } from 'next/server';
-import { store } from '@/lib/store';
-import { seedCategories, seedProducts } from '@/lib/seedData';
+import { NextResponse } from "next/server";
+import { store } from "@/lib/store";
+import { seedCategories, seedProducts } from "@/lib/seedData";
 
 export async function POST(request: Request) {
   try {
     const { password } = await request.json();
-    
+
     // حماية بكلمة سر بسيطة
-    if (password !== 'seed123') {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    if (password !== "seed123") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // حذف البيانات الموجودة أولاً (اختياري)
     const existingCategories = await store.getCategories();
     const existingProducts = await store.getProducts();
-    
-    console.log(`Found ${existingCategories.length} categories and ${existingProducts.length} products`);
+
+    console.log(
+      `Found ${existingCategories.length} categories and ${existingProducts.length} products`
+    );
 
     // إضافة Categories
     const createdCategories = [];
@@ -29,7 +31,7 @@ export async function POST(request: Request) {
     let createdProducts = 0;
     for (const product of seedProducts) {
       const categoryId = createdCategories[product.categoryIndex].id;
-      
+
       await store.createProduct({
         name: product.name,
         nameAr: product.nameAr,
@@ -39,11 +41,13 @@ export async function POST(request: Request) {
         image: product.image,
         categoryId,
       });
-      
+
       createdProducts++;
     }
 
-    console.log(`Seeding completed: ${createdCategories.length} categories, ${createdProducts} products`);
+    console.log(
+      `Seeding completed: ${createdCategories.length} categories, ${createdProducts} products`
+    );
 
     return NextResponse.json({
       success: true,
@@ -51,11 +55,11 @@ export async function POST(request: Request) {
       categories: createdCategories.length,
       products: createdProducts,
     });
-
-  } catch (error: any) {
-    console.error('Seed error:', error);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.error("Seed error:", error);
     return NextResponse.json(
-      { error: 'Seeding failed', details: error.message },
+      { error: "Seeding failed", details: message },
       { status: 500 }
     );
   }

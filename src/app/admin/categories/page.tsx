@@ -40,7 +40,7 @@ export default function CategoriesPage() {
     fetchCategories();
   }, [fetchCategories]);
 
-  const handleSubmit = async (data: Record<string, any>) => {
+  const handleSubmit = async (data: Record<string, unknown>) => {
     if (!modalMode) return;
 
     try {
@@ -139,7 +139,7 @@ export default function CategoriesPage() {
               : t.admin.addCategory
         }
         fields={modalMode !== 'delete' ? categoryFields : undefined}
-        initialData={selectedCategory || undefined}
+        initialData={selectedCategory ? selectedCategory as unknown as Record<string, unknown> : undefined}
         onClose={() => { setModalMode(null); setSelectedCategory(null); }}
         onSubmit={handleSubmit}
       />

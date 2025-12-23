@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { writeFile, unlink } from 'fs/promises';
+import { writeFile, unlink, mkdir } from 'fs/promises';
 import { existsSync } from 'fs';
 import path from 'path';
 
@@ -15,13 +15,18 @@ export async function POST(request: Request) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
+    const uploadDir = path.join(process.cwd(), 'public/uploads');
+    if (!existsSync(uploadDir)) {
+      await mkdir(uploadDir, { recursive: true });
+    }
+
     const filename = `${Date.now()}-${file.name.replace(/\s/g, '-')}`;
-    const filepath = path.join(process.cwd(), 'public/uploads', filename);
+    const filepath = path.join(uploadDir, filename);
 
     await writeFile(filepath, buffer);
 
     return NextResponse.json({ url: `/uploads/${filename}` });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Upload failed' }, { status: 500 });
   }
 }
@@ -35,6 +40,10 @@ export async function DELETE(request: Request) {
     }
 
     const filename = url.split('/').pop();
+    if (!filename) {
+      return NextResponse.json({ error: 'Invalid URL' }, { status: 400 });
+    }
+
     const filepath = path.join(process.cwd(), 'public/uploads', filename);
 
     if (existsSync(filepath)) {
@@ -42,7 +51,7 @@ export async function DELETE(request: Request) {
     }
 
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Delete failed' }, { status: 500 });
   }
 }

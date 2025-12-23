@@ -1,3 +1,4 @@
+@use "sass:color";
 @use "@/styles/variables" as *;
 @use "@/styles/mixins" as *;
 
@@ -15,8 +16,8 @@
   gap: 0.5rem;
   direction: ltr !important;
 
-  @include respond(sm) {
-    padding: $spacings-md $spacings-md;
+  @include respond(md) {
+    padding: $spacings-xs $spacings-md;
     gap: 0.4rem;
     max-width: 100%;
   }
