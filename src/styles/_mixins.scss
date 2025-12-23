@@ -1,0 +1,19 @@
+@use "sass:map";
+@use "@/styles/variables" as *;
+
+@mixin respond($break) {
+  @media (max-width: map.get($breakpoints, $break)) {
+    @content;
+  }
+}
+
+@mixin container {
+  width: 100%;
+  max-width: $container-max-width;
+  margin-inline: auto;
+  padding-inline: map.get($spacings, lg);
+  
+  @include respond(lg) {
+    padding-inline: map.get($spacings, md);
+  }
+}

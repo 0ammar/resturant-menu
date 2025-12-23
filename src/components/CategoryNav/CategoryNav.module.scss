@@ -1,0 +1,102 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.categoryNav {
+  width: 100%;
+  padding: 0.8rem 0;
+}
+
+.container {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  direction: ltr !important; 
+
+  @include respond(sm) {
+    padding: 0 0.2rem;
+    gap: 0.4rem;
+  }
+}
+
+.arrowBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background: rgba($color-gold, 0.1);
+  border: 1px solid rgba($color-gold, 0.4);
+  border-radius: 50%;
+  color: $color-gold;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.2s;
+
+  &:hover {
+    background: $color-gold;
+    color: $color-black;
+  }
+
+  @include respond(sm) {
+    width: 28px;
+    height: 28px;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+}
+
+.navWrapper {
+  flex: 1;
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @include respond(sm) {
+    gap: 0.4rem;
+  }
+}
+
+.categoryBtn {
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  background: rgba($color-white, 0.04);
+  border: 1px solid rgba($color-gold, 0.35);
+  color: $color-white;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.8rem;
+  font-weight: $font-weight-bold;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+
+  &:hover {
+    background: rgba($color-gold, 0.12);
+    border-color: rgba($color-gold, 0.7);
+  }
+
+  &[data-active="true"] {
+    background: $color-gold;
+    color: $color-black;
+    border-color: $color-gold;
+  }
+
+  @include respond(sm) {
+    padding: 0.4rem 0.7rem;
+    font-size: 0.7rem;
+  }
+}

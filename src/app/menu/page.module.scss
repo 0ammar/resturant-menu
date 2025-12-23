@@ -1,0 +1,42 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.page {
+  padding-top: 75px;
+  min-height: 100vh;
+
+  @include respond(sm) {
+    padding-top: 65px;
+  }
+}
+
+.container {
+  max-width: 1320px;
+  margin: 1.5rem auto;
+  padding: 0 1rem;
+
+  @include respond(sm) {
+    margin: 1rem auto;
+    padding: 0 0.8rem;
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.8rem;
+
+  @include respond(lg) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @include respond(md) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.7rem;
+  }
+
+  @include respond(sm) {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+}

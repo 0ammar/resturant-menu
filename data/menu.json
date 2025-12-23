@@ -1,0 +1,60 @@
+{
+  "categories": [
+    {
+      "name": "aaaaaaaaaaaaa",
+      "nameAr": "المقبلاتaaaaaa",
+      "description": "Start your journaaaey",
+      "descriptionAr": "ابدأ رحلتك",
+      "icon": "🥗",
+      "id": "1"
+    },
+    {
+      "id": "2",
+      "name": "Main Courses",
+      "nameAr": "الأطباق الرئيسية",
+      "description": "Our signature dishes",
+      "descriptionAr": "أطباقنا المميزة",
+      "icon": "🍽️"
+    },
+    {
+      "id": "3",
+      "name": "Desserts",
+      "nameAr": "الحلويات",
+      "description": "Sweet endings",
+      "descriptionAr": "نهايات حلوة",
+      "icon": "🍰"
+    }
+  ],
+  "items": [
+    {
+      "id": "1",
+      "name": "Mediterranean Mezze",
+      "nameAr": "مازة متوسطية",
+      "description": "Hummus, baba ghanoush, tabbouleh",
+      "descriptionAr": "حمص، بابا غنوج، تبولة",
+      "price": 18,
+      "image": "https://images.unsplash.com/photo-1595908129746-18dd1888b442?w=600&q=80",
+      "categoryId": "1"
+    },
+    {
+      "name": "Grilled Lamb Chops",
+      "nameAr": "قطع لحم خروف مشوية",
+      "description": "Tender lamb with herbs",
+      "descriptionAr": "لحم خروف طري مع الأعشاب",
+      "price": 38,
+      "image": "https://images.unsplash.com/photo-1600891964092-4316c288032e?w=600&q=80",
+      "categoryId": "2",
+      "id": "2"
+    },
+    {
+      "id": "3",
+      "name": "Chocolate Lava Cake",
+      "nameAr": "كيكة الشوكولاتة",
+      "description": "Warm chocolate with ice cream",
+      "descriptionAr": "شوكولاتة دافئة مع آيس كريم",
+      "price": 13,
+      "image": "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=600&q=80",
+      "categoryId": "3"
+    }
+  ]
+}
