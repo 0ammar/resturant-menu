@@ -1,31 +1,44 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import { useLanguage } from '@/lib/LanguageContext';
-import { CategoryNav, MealCard } from '@/components';
-import type { Category, Product } from '@/lib/types';
-import styles from './page.module.scss';
+import { useEffect, useState } from "react";
+import { useLanguage } from "@/lib/LanguageContext";
+import { CategoryNav, MealCard, LoadingSkeleton } from "@/components";
+import type { Category, Product } from "@/lib/types";
+import styles from "./page.module.scss";
 
 export default function MenuPage() {
   const { t } = useLanguage();
+
   const [categories, setCategories] = useState<Category[]>([]);
   const [menuItems, setMenuItems] = useState<Product[]>([]);
-  const [activeCategory, setActiveCategory] = useState('');
-  const [loading, setLoading] = useState(true);
+  const [activeCategory, setActiveCategory] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
+
       try {
-        const [cats, items] = await Promise.all([
-          fetch("/api/categories", { cache: "no-store" }).then(r => r.json()),
-          fetch("/api/products", { cache: "no-store" }).then(r => r.json()),
+        const [catsRes, itemsRes] = await Promise.all([
+          fetch("/api/categories", { cache: "no-store" }),
+          fetch("/api/products", { cache: "no-store" }),
         ]);
 
-        setCategories(Array.isArray(cats) ? cats : []);
-        setMenuItems(Array.isArray(items) ? items : []);
-        if (cats.length > 0) setActiveCategory(cats[0].id);
+        const cats = await catsRes.json();
+        const items = await itemsRes.json();
+
+        const safeCats: Category[] = Array.isArray(cats) ? cats : [];
+        const safeItems: Product[] = Array.isArray(items) ? items : [];
+
+        setCategories(safeCats);
+        setMenuItems(safeItems);
+
+        if (safeCats.length > 0) setActiveCategory(safeCats[0].id);
       } catch (error) {
-        console.error('Failed to fetch:', error);
+        console.error("Failed to fetch:", error);
+        setCategories([]);
+        setMenuItems([]);
+        setActiveCategory("");
       } finally {
         setLoading(false);
       }
@@ -35,10 +48,16 @@ export default function MenuPage() {
   }, []);
 
   if (loading) {
-    return <div className={styles.loading}>{t.common.loading}</div>;
+    return (
+      <div className={styles.page}>
+        <div className={styles.container}>
+          <LoadingSkeleton />
+        </div>
+      </div>
+    );
   }
 
-  const filteredItems = menuItems.filter(item => item.categoryId === activeCategory);
+  const filteredItems = menuItems.filter((item) => item.categoryId === activeCategory);
 
   return (
     <div className={styles.page}>

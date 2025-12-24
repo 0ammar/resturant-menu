@@ -1,0 +1,193 @@
+@use "sass:map";
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  user-select: none;
+  pointer-events: none;
+}
+
+.nav {
+  display: flex;
+  gap: 0.6rem;
+  overflow: hidden;
+  padding: 0.25rem 0;
+}
+
+.chip {
+  height: 34px;
+  width: 120px;
+  border-radius: map.get($radius, pill);
+  border: 1px solid rgba($color-gold, 0.22);
+  background: rgba($color-white, 0.04);
+  position: relative;
+  overflow: hidden;
+
+  @include respond(sm) {
+    height: 30px;
+    width: 96px;
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.8rem;
+
+  @include respond(lg) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @include respond(md) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.7rem;
+  }
+
+  @include respond(sm) {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 1rem;
+  min-height: 120px;
+
+  border-radius: map.get($radius, md);
+  border: 1px solid rgba($color-gold, 0.18);
+
+  background: linear-gradient(
+    135deg,
+    rgba($color-white, 0.05),
+    rgba($color-white, 0.025)
+  );
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba($color-black, 0.25) inset;
+
+  position: relative;
+  overflow: hidden;
+
+  animation: cardIn 380ms $ease-smooth both;
+
+  @include respond(sm) {
+    min-height: 100px;
+    padding: 0.85rem;
+    gap: 1rem;
+  }
+}
+
+.card::after,
+.chip::after,
+.block::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 0%,
+    rgba($color-gold, 0.06) 35%,
+    rgba($color-white, 0.08) 50%,
+    rgba($color-gold, 0.06) 65%,
+    transparent 100%
+  );
+  transform: translateX(-60%);
+  animation: shimmer 1.35s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-60%);
+  }
+  100% {
+    transform: translateX(60%);
+  }
+}
+
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.image {
+  width: 130px;
+  height: 130px;
+  border-radius: map.get($radius, md);
+  flex-shrink: 0;
+
+  background: rgba($color-white, 0.06);
+  border: 1px solid rgba($color-gold, 0.14);
+  position: relative;
+  overflow: hidden;
+
+  @include respond(sm) {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  min-width: 0;
+}
+
+.block {
+  height: 14px;
+  border-radius: map.get($radius, sm);
+  background: rgba($color-white, 0.05);
+  border: 1px solid rgba($color-gold, 0.10);
+  position: relative;
+  overflow: hidden;
+}
+
+.title {
+  height: 18px;
+  width: 65%;
+}
+
+.line1 {
+  width: 85%;
+}
+
+.line2 {
+  width: 72%;
+}
+
+.price {
+  height: 26px;
+  width: 38%;
+  border-radius: map.get($radius, pill);
+  background: rgba($color-gold, 0.10);
+  border: 1px solid rgba($color-gold, 0.25);
+  margin-top: 0.2rem;
+
+  @include respond(sm) {
+    height: 24px;
+    width: 45%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .chip::after,
+  .card::after,
+  .block::after {
+    animation: none !important;
+  }
+}

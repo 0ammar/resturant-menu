@@ -12,8 +12,18 @@
   max-width: $container-max-width;
   margin-inline: auto;
   padding-inline: map.get($spacings, lg);
-  
+
   @include respond(lg) {
     padding-inline: map.get($spacings, md);
   }
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin flex-row {
+  display: flex;
+  flex-direction: row;
 }
