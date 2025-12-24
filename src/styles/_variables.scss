@@ -46,24 +46,33 @@ $font-sizes-xxxl: 48px;
 
 $font-weight-medium: 500;
 $font-weight-bold: 700;
-$radius-lg: 15;
+
 $radius: (
   sm: 6px,
   md: 12px,
+  lg: 15px,
   full: 100%,
   pill: 999px,
 );
 
 $radius-sm: 6px;
 $radius-md: 12px;
+$radius-lg: 15px;
 $radius-full: 100%;
 $radius-pill: 999px;
 
-$color-gold: #f9d457;
-$color-black: #000000;
-$color-red: #8B0000;
-$color-white: #FFFFFF;
-$color-bg: $color-black;
-$color-text: $color-white;
+// Static colors 
+$color-gold-static: #f9d457;
+$color-black-static: #000000;
+$color-white-static: #FFFFFF;
+
+// Theme-based colors
+$color-gold: var(--color-gold);
+$color-black: var(--color-black);
+$color-white: var(--color-white);
+$color-bg: var(--color-bg);
+$color-text: var(--color-text);
+$color-card-bg: var(--color-card-bg);
+$color-border: var(--color-border);
 
 $z-header: 100;

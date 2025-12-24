@@ -11,12 +11,11 @@
   justify-content: space-between;
   align-items: center;
   padding: 0 map.get($spacings, xl);
-  background: $color-black;
-  border-bottom: 2px solid rgba($color-gold, 0.2);
+  background: var(--color-bg);
+  border-bottom: 2px solid var(--color-border);
   z-index: $z-header;
 
   @include respond(md) {
-    border-bottom: 2px solid rgba($color-gold, 0.2);
     padding: 0 map.get($spacings, md);
   }
 }
@@ -36,8 +35,8 @@
   height: 38px;
   padding: 0;
   background: transparent;
-  color: $color-gold;
-  border: 2px solid $color-gold;
+  color: var(--color-gold);
+  border: 2px solid var(--color-gold);
   cursor: pointer;
   transition: all $transition-base;
   font-family: "Montserrat", sans-serif;
@@ -47,15 +46,15 @@
   flex-shrink: 0;
 
   &:hover {
-    background: $color-gold;
-    color: $color-black;
+    background: var(--color-gold);
+    color: var(--color-button-text);
   }
 
   @include respond(sm) {
     width: 32px;
     height: 32px;
     font-size: 10px;
-    border: 1px solid $color-gold;
+    border: 1px solid var(--color-gold);
 
     svg {
       width: 14px;
@@ -95,8 +94,8 @@
   top: 85px;
   left: map.get($spacings, xl);
   width: 140px;
-  background: $color-black;
-  border: 1px solid $color-gold;
+  background: var(--menu-bg);
+  border: 1px solid var(--color-gold);
   border-radius: map.get($radius, md);
   z-index: 9999;
 
@@ -128,7 +127,7 @@
   align-items: center;
   gap: map.get($spacings, sm);
   padding: map.get($spacings, sm) map.get($spacings, md);
-  color: $color-gold;
+  color: var(--color-gold);
   font-size: map.get($font-sizes, sm);
   font-weight: $font-weight-medium;
   text-decoration: none;
@@ -136,7 +135,7 @@
   transition: all $transition-base;
 
   &:hover {
-    background: rgba($color-gold, 0.1);
+    background: rgba(249, 212, 87, 0.1);
   }
 
   svg {
@@ -164,3 +163,13 @@
   z-index: 9998;
   animation: fadeIn 0.2s;
 }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+

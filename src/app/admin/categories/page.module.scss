@@ -10,7 +10,7 @@
 .loading {
   text-align: center;
   padding: $spacings-xxl;
-  color: rgba($color-white, 0.6);
+  color: var(--text-muted);
   font-size: $font-sizes-lg;
 }
 
@@ -21,7 +21,7 @@
   margin-bottom: $spacings-xl;
 
   h2 {
-    color: $color-gold;
+    color: var(--color-gold);
     font-size: $font-sizes-xxl;
     font-weight: $font-weight-bold;
   }
@@ -39,8 +39,8 @@
   display: flex;
   align-items: center;
   gap: $spacings-xs;
-  background: $color-gold;
-  color: $color-black;
+  background: var(--color-button-bg);
+  color: var(--color-button-text);
   border: none;
   padding: $spacings-sm $spacings-lg;
   border-radius: $radius-sm;
@@ -78,35 +78,35 @@
   }
 
   @include respond(sm) {
-    grid-template-columns: repeat(2, 1fr); /* ✅ 2 columns على mobile */
+    grid-template-columns: repeat(2, 1fr);
     gap: $spacings-sm;
   }
 }
 
 .card {
-  background: rgba($color-white, 0.05);
+  background: var(--color-card-bg);
   padding: $spacings-lg;
   border-radius: $radius-md;
-  border: 1px solid rgba($color-gold, 0.3);
+  border: 1px solid var(--color-border);
   text-align: center;
   cursor: pointer;
   transition: all $transition-base $ease-smooth;
 
   &:hover {
     transform: translateY(-5px);
-    border-color: rgba($color-gold, 0.6);
-    box-shadow: 0 8px 20px rgba($color-gold, 0.15);
+    border-color: var(--color-gold);
+    box-shadow: 0 8px 20px rgba(249, 212, 87, 0.15);
   }
 
   h3 {
-    color: $color-white;
+    color: var(--color-text);
     font-size: $font-sizes-lg;
     font-weight: $font-weight-bold;
     margin-bottom: $spacings-xs;
   }
 
   p {
-    color: rgba($color-white, 0.6);
+    color: var(--text-muted);
     font-size: $font-sizes-md;
     margin-bottom: $spacings-md;
   }
@@ -131,8 +131,8 @@
 
   button {
     background: transparent;
-    border: 1px solid rgba($color-gold, 0.3);
-    color: $color-gold;
+    border: 1px solid var(--color-border);
+    color: var(--color-gold);
     width: 32px;
     height: 32px;
     border-radius: $radius-full;
@@ -143,8 +143,8 @@
     transition: all $transition-base;
 
     &:hover {
-      background: rgba($color-gold, 0.2);
-      border-color: $color-gold;
+      background: rgba(249, 212, 87, 0.2);
+      border-color: var(--color-gold);
       transform: scale(1.1);
     }
 

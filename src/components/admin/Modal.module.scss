@@ -3,7 +3,7 @@
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.8);
+  background: var(--modal-overlay);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,8 +12,8 @@
 }
 
 .modal {
-  background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
-  border: 1px solid rgba($color-gold, 0.3);
+  background: var(--modal-bg);
+  border: 1px solid var(--color-border);
   border-radius: $radius-lg;
   padding: 1.8rem;
   width: 100%;
@@ -23,13 +23,14 @@
   position: relative;
 
   h3 {
-    color: $color-gold;
+    color: var(--color-gold);
     margin: 0 0 1.5rem 0;
     font-size: $font-sizes-xl;
   }
 
   p {
-    color: rgba($color-white, 0.9);
+    color: var(--color-text);
+    opacity: 0.9;
     margin: 0 0 1rem 0;
     line-height: 1.6;
   }
@@ -39,21 +40,21 @@
     width: 100%;
     padding: 0.75rem;
     margin-bottom: 1rem;
-    background: rgba($color-white, 0.05);
-    border: 1px solid rgba($color-gold, 0.3);
+    background: var(--admin-input-bg);
+    border: 1px solid var(--color-border);
     border-radius: $radius-sm;
-    color: $color-white;
+    color: var(--color-text);
     font-size: $font-sizes-sm;
     transition: all $transition-base;
 
     &:focus {
       outline: none;
-      border-color: $color-gold;
-      background: rgba($color-white, 0.08);
+      border-color: var(--color-gold);
+      background: var(--input-focus-bg);
     }
 
     &::placeholder {
-      color: rgba($color-white, 0.4);
+      color: var(--text-muted);
     }
   }
 
@@ -68,21 +69,21 @@
   position: absolute;
   top: 1rem;
   right: 1rem;
-  background: rgba($color-gold, 0.1);
-  border: 1px solid rgba($color-gold, 0.3);
+  background: rgba(249, 212, 87, 0.1);
+  border: 1px solid var(--color-border);
   border-radius: $radius-full;
   width: 32px;
   height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: $color-gold;
+  color: var(--color-gold);
   cursor: pointer;
   transition: all $transition-base;
 
   &:hover {
-    background: $color-gold;
-    color: $color-black;
+    background: var(--color-gold);
+    color: var(--color-button-text);
   }
 }
 
@@ -110,8 +111,8 @@
 }
 
 .confirm {
-  background: $color-gold;
-  color: $color-black;
+  background: var(--color-button-bg);
+  color: var(--color-button-text);
 
   &:hover:not(:disabled) {
     transform: translateY(-2px);
@@ -119,12 +120,12 @@
 }
 
 .cancel {
-  background: rgba($color-white, 0.1);
-  color: $color-white;
-  border: 1px solid rgba($color-white, 0.2);
+  background: var(--cancel-bg);
+  color: var(--color-text);
+  border: 1px solid var(--cancel-border);
 
   &:hover:not(:disabled) {
-    background: rgba($color-white, 0.15);
+    background: var(--cancel-hover-bg);
   }
 }
 
@@ -135,7 +136,7 @@
 }
 
 .warning {
-  color: rgba($color-gold, 0.8) !important;
+  color: rgba(249, 212, 87, 0.8) !important;
   font-size: $font-sizes-sm;
   margin: 0.5rem 0 1rem 0 !important;
 }
@@ -148,7 +149,7 @@
   margin-bottom: 1rem;
   border-radius: $radius-sm;
   overflow: hidden;
-  border: 1px solid rgba($color-gold, 0.3);
+  border: 1px solid var(--color-border);
 
   img {
     width: 100%;
@@ -163,16 +164,16 @@
   justify-content: center;
   gap: 0.5rem;
   padding: 0.75rem;
-  background: rgba($color-gold, 0.1);
-  border: 1px dashed rgba($color-gold, 0.4);
+  background: rgba(249, 212, 87, 0.1);
+  border: 1px dashed rgba(249, 212, 87, 0.4);
   border-radius: $radius-sm;
-  color: $color-gold;
+  color: var(--color-gold);
   cursor: pointer;
   transition: all $transition-base;
 
   &:hover {
-    background: rgba($color-gold, 0.15);
-    border-color: $color-gold;
+    background: rgba(249, 212, 87, 0.15);
+    border-color: var(--color-gold);
   }
 
   span {

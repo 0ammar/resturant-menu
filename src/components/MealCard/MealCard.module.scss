@@ -1,3 +1,6 @@
+// ==========================================
+// 1. components/MealCard/MealCard.module.scss
+// ==========================================
 @use "@/styles/variables" as *;
 @use "@/styles/mixins" as *;
 
@@ -6,16 +9,16 @@
   align-items: center;
   gap: 1.2rem;
   padding: 1rem;
-  background: rgba($color-black, 0.95);
-  border: 1px solid rgba($color-gold, 0.3);
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-border);
   border-radius: $radius-md;
   min-height: 120px;
   transition: all $transition-base $ease-smooth;
   
   &:hover {
-    border-color: rgba($color-gold, 0.7);
+    border-color: var(--color-gold);
     transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba($color-gold, 0.15);
+    box-shadow: 0 6px 20px rgba(249, 212, 87, 0.15);
   }
   
   &[data-dir="rtl"] {
@@ -39,7 +42,7 @@
 
 .name {
   margin: 0;
-  color: $color-white;
+  color: var(--color-text);
   font-family: "Playfair Display", serif;
   font-size: $font-sizes-lg;
   font-weight: $font-weight-bold;
@@ -52,7 +55,7 @@
 
 .desc {
   margin: 0;
-  color: rgba($color-white, 0.7);
+  color: var(--text-dim);
   font-size: $font-sizes-sm;
   line-height: 1.4;
   overflow: hidden;
@@ -69,10 +72,10 @@
 .price {
   display: inline-block;
   padding: 0.35rem 0.85rem;
-  background: linear-gradient(135deg, rgba($color-gold, 0.2), rgba($color-gold, 0.1));
-  border: 1px solid rgba($color-gold, 0.5);
+  background: linear-gradient(135deg, rgba(249, 212, 87, 0.2), rgba(249, 212, 87, 0.1));
+  border: 1px solid rgba(249, 212, 87, 0.5);
   border-radius: $radius-sm;
-  color: $color-gold;
+  color: var(--color-gold);
   font-weight: 800;
   font-size: $font-sizes-md;
   width: fit-content;
@@ -91,7 +94,6 @@
   object-fit: cover;
   flex-shrink: 0;
   transition: transform $transition-base $ease-smooth;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 
   @include respond(sm) {
     width: 100px;
@@ -107,3 +109,4 @@
 .card[data-dir="rtl"] .desc {
   text-align: right;
 }
+
