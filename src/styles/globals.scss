@@ -2,10 +2,10 @@
 @use "@/styles/variables" as *;
 @use "@/styles/mixins" as *;
 
-// CSS Variables for theming
 :root {
-  // Main colors
   --color-gold: #f9d457;
+  --color-black: #000000;
+  --color-white: #ffffff;
   --color-bg: #000000;
   --color-text: #ffffff;
   --color-card-bg: rgba(255, 255, 255, 0.05);
@@ -13,63 +13,85 @@
   --color-button-bg: #f9d457;
   --color-button-text: #000000;
   
-  // Text variations
   --text-muted: rgba(255, 255, 255, 0.6);
   --text-dim: rgba(255, 255, 255, 0.7);
   
-  // Overlay/Modal
   --modal-bg: linear-gradient(145deg, #1a1a1a, #0f0f0f);
   --modal-overlay: rgba(0, 0, 0, 0.8);
-  
-  // Admin specific
   --admin-bg: rgba(255, 255, 255, 0.05);
+  --admin-input-bg: rgba(255, 255, 255, 0.03);
+  --input-focus-bg: rgba(255, 255, 255, 0.08);
+  --cancel-bg: rgba(255, 255, 255, 0.05);
+  --cancel-border: rgba(255, 255, 255, 0.2);
+  --cancel-hover-bg: rgba(255, 255, 255, 0.1);
+  
+  --skeleton-bg: rgba(255, 255, 255, 0.05);
+  --skeleton-border: rgba(249, 212, 87, 0.2);
+  --skeleton-card-bg: rgba(255, 255, 255, 0.03);
+  --skeleton-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --skeleton-image-bg: rgba(255, 255, 255, 0.08);
+  --skeleton-block-bg: rgba(255, 255, 255, 0.06);
+  --skeleton-price-bg: rgba(249, 212, 87, 0.15);
+  --skeleton-price-border: rgba(249, 212, 87, 0.3);
+  --skeleton-chip-bg: rgba(255, 255, 255, 0.05);
+  --skeleton-nav-bg: transparent;
+  --shimmer-mid: rgba(255, 255, 255, 0.1);
+  
+  --intro-bg-center: #1a1a1a;
+  --intro-bg-edge: #000000;
+  --curtain-dark: #0a0a0a;
+  --curtain-mid: #1a1a1a;
+  --intro-subtitle: rgba(255, 255, 255, 0.8);
   
   color-scheme: dark;
 }
 
 [data-theme="light"] {
-  // Main colors
-  --color-gold: #f9d457;
   --color-bg: #ffffff;
   --color-text: #000000;
   --color-card-bg: rgba(0, 0, 0, 0.03);
   --color-border: rgba(249, 212, 87, 0.4);
-  --color-button-bg: #f9d457;
-  --color-button-text: #000000;
   
-  // Text variations
   --text-muted: rgba(0, 0, 0, 0.6);
   --text-dim: rgba(0, 0, 0, 0.7);
   
-  // Overlay/Modal
   --modal-bg: linear-gradient(145deg, #f5f5f5, #e8e8e8);
   --modal-overlay: rgba(0, 0, 0, 0.5);
-  
-  // Admin specific
   --admin-bg: rgba(0, 0, 0, 0.03);
+  --admin-input-bg: rgba(0, 0, 0, 0.02);
+  --input-focus-bg: rgba(0, 0, 0, 0.05);
+  --cancel-bg: rgba(0, 0, 0, 0.03);
+  --cancel-border: rgba(0, 0, 0, 0.2);
+  --cancel-hover-bg: rgba(0, 0, 0, 0.08);
+  
+  --skeleton-bg: rgba(0, 0, 0, 0.05);
+  --skeleton-border: rgba(249, 212, 87, 0.3);
+  --skeleton-card-bg: rgba(0, 0, 0, 0.02);
+  --skeleton-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --skeleton-image-bg: rgba(0, 0, 0, 0.08);
+  --skeleton-block-bg: rgba(0, 0, 0, 0.06);
+  --skeleton-price-bg: rgba(249, 212, 87, 0.2);
+  --skeleton-price-border: rgba(249, 212, 87, 0.4);
+  --skeleton-chip-bg: rgba(0, 0, 0, 0.05);
+  --skeleton-nav-bg: rgba(0, 0, 0, 0.02);
+  --shimmer-mid: rgba(255, 255, 255, 0.4);
+  
+  --intro-bg-center: #f5f5f5;
+  --intro-bg-edge: #ffffff;
+  --curtain-dark: #e0e0e0;
+  --curtain-mid: #f0f0f0;
+  --intro-subtitle: rgba(0, 0, 0, 0.8);
   
   color-scheme: light;
-}
-body::-webkit-scrollbar {
-  display: none;
-}
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  transition: background-color 300ms ease, color 300ms ease, border-color 300ms ease;
-
-   scrollbar-width: none;
-  -ms-overflow-style: none;
-  
-  &::-webkit-scrollbar {
-    display: none;
-  }
 }
 
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+}
+
+html.loading {
+  background: var(--color-bg);
 }
 
 body {
@@ -82,6 +104,24 @@ body {
   -webkit-font-smoothing: antialiased;
   -ms-overflow-style: none;
   scrollbar-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 h1, h2, h3, h4, h5, h6 {

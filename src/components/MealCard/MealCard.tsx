@@ -11,22 +11,22 @@ interface MealCardProps {
 
 export const MealCard = ({ meal }: MealCardProps) => {
   const { language, t, dir } = useLanguage();
-
   const name = language === 'ar' ? meal.nameAr : meal.name;
   const description = language === 'ar' ? meal.descriptionAr : meal.description;
   const imgSrc = meal.image || '/product-1.jpg';
 
   return (
     <div className={styles.card} data-dir={dir}>
-      <Image
-        src={imgSrc}
-        alt={name}
-        width={100}
-        height={100}
-        className={styles.img}
-        priority
-      />
-
+      <div className={styles.imageWrapper}>
+        <Image
+          src={imgSrc}
+          alt={name}
+          fill
+          sizes="(max-width: 640px) 100px, 130px"
+          className={styles.img}
+          priority
+        />
+      </div>
       <div className={styles.content}>
         <h3 className={styles.name}>{name}</h3>
         {description && <p className={styles.desc}>{description}</p>}

@@ -1,4 +1,3 @@
-import { Header } from '@/components';
 import { LanguageProvider } from '@/lib/LanguageContext';
 import { ThemeProvider } from '@/lib/ThemeContext';
 import type { Metadata } from 'next';
@@ -11,9 +10,9 @@ export const metadata: Metadata = {
   },
   description: 'The best restaurant in town',
   icons: {
-    icon: "/logo.png",
-    shortcut: '/logo.png'
-  }
+    icon: '/logo.png',
+    shortcut: '/logo.png',
+  },
 };
 
 export default function RootLayout({
@@ -22,11 +21,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                const theme = localStorage.getItem('theme');
+                if (theme === 'light' || theme === 'dark') {
+                  document.documentElement.setAttribute('data-theme', theme);
+                }
+              } catch (e) {}
+            `,
+          }}
+        />
+      </head>
       <body>
         <ThemeProvider>
           <LanguageProvider>
-            <Header />
             {children}
           </LanguageProvider>
         </ThemeProvider>

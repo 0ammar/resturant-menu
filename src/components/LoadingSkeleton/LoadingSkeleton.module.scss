@@ -2,52 +2,70 @@
 @use "@/styles/variables" as *;
 @use "@/styles/mixins" as *;
 
-.wrap {
+.wrapper {
   width: 100%;
+  min-height: 100vh;
   user-select: none;
   pointer-events: none;
+  padding-top: 75px;
+
+  @include respond(sm) {
+    padding-top: 65px;
+  }
 }
 
-// Category Nav Skeleton
 .navContainer {
   width: 100%;
   padding: 1.5rem 0;
+  background: var(--skeleton-nav-bg);
+  border-bottom: 1px solid var(--skeleton-border);
 }
 
 .nav {
   max-width: 900px;
-  margin: 20px auto 0;
+  margin: 0 auto;
   padding: 0 $spacings-lg;
   display: flex;
   gap: 0.5rem;
-  overflow: hidden;
+  overflow-x: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   @include respond(md) {
-    padding: $spacings-xs $spacings-md;
+    padding: 0 $spacings-md;
     max-width: 100%;
   }
 }
 
 .chip {
   height: 38px;
-  width: 120px;
+  min-width: 120px;
   border-radius: map.get($radius, pill);
+  background: var(--skeleton-chip-bg);
   border: 1px solid var(--skeleton-border);
-  background: var(--skeleton-bg);
   flex-shrink: 0;
   position: relative;
   overflow: hidden;
 
   @include respond(sm) {
     height: 34px;
-    width: 96px;
+    min-width: 96px;
   }
 }
 
-// Grid Skeleton
-.grid {
+.container {
   @include container;
   margin: 1.5rem auto;
+
+  @include respond(sm) {
+    margin: 1rem auto;
+  }
+}
+
+.grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 0.8rem;
@@ -64,7 +82,6 @@
   @include respond(sm) {
     grid-template-columns: 1fr;
     gap: 0.6rem;
-    margin: 1rem auto;
   }
 }
 
@@ -75,12 +92,13 @@
   padding: 1rem;
   min-height: 120px;
   border-radius: map.get($radius, md);
-  border: 1px solid var(--skeleton-border);
   background: var(--skeleton-card-bg);
+  border: 1px solid var(--skeleton-border);
   box-shadow: var(--skeleton-shadow);
   position: relative;
   overflow: hidden;
-  animation: cardIn 380ms $ease-smooth both;
+  opacity: 0;
+  animation: cardSlideIn 400ms $ease-smooth forwards;
 
   @include respond(sm) {
     min-height: 100px;
@@ -89,19 +107,21 @@
   }
 }
 
-.image {
+.imageBox {
   width: 130px;
   height: 130px;
+  min-width: 130px;
   border-radius: map.get($radius, md);
-  flex-shrink: 0;
   background: var(--skeleton-image-bg);
   border: 1px solid var(--skeleton-border);
   position: relative;
   overflow: hidden;
+  flex-shrink: 0;
 
   @include respond(sm) {
     width: 100px;
     height: 100px;
+    min-width: 100px;
   }
 }
 
@@ -149,10 +169,9 @@
   }
 }
 
-// Shimmer animation
 .chip::after,
 .card::after,
-.image::after,
+.imageBox::after,
 .block::after {
   content: "";
   position: absolute;
@@ -164,7 +183,7 @@
     transparent 100%
   );
   transform: translateX(-100%);
-  animation: shimmer 1.5s ease-in-out infinite;
+  animation: shimmer 1.8s ease-in-out infinite;
 }
 
 @keyframes shimmer {
@@ -176,10 +195,10 @@
   }
 }
 
-@keyframes cardIn {
+@keyframes cardSlideIn {
   from {
     opacity: 0;
-    transform: translateY(6px);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
@@ -191,11 +210,12 @@
   .card,
   .chip::after,
   .card::after,
-  .image::after,
+  .imageBox::after,
   .block::after {
     animation: none !important;
   }
-}
-.wrap {
-  background-color: rgba(0,0,0,0.1); // مؤقت للتأكد إنه ظاهر
+
+  .card {
+    opacity: 1;
+  }
 }

@@ -1,50 +1,49 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect, ReactNode, useMemo } from 'react';
+import { createContext, useContext, useState } from "react";
 
-type Theme = 'light' | 'dark';
+type Theme = "light" | "dark";
 
-interface ThemeContextType {
+type ThemeContextType = {
   theme: Theme;
   toggleTheme: () => void;
-  mounted: boolean; 
-}
+  mounted: boolean;
+};
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [theme, setTheme] = useState<Theme>('dark'); 
-  const [mounted, setMounted] = useState(false);
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const [theme, setTheme] = useState<Theme>(() => {
+    if (typeof window === "undefined") return "dark";
+    const stored = localStorage.getItem("theme");
+    return stored === "light" || stored === "dark" ? stored : "dark";
+  });
 
-useEffect(() => {
-  setTimeout(() => {
-    const savedTheme = localStorage.getItem('theme') as Theme | null;
-    setTheme(savedTheme === 'light' || savedTheme === 'dark' ? savedTheme : 'dark');
-    setMounted(true);
-  }, 0);
-}, []);
-
-
-  useEffect(() => {
-    if (!mounted) return;
-    document.documentElement.setAttribute('data-theme', theme);
-  }, [theme, mounted]);
+  // 👇 بدون useEffect — قيمة جاهزة
+  const mounted = typeof window !== "undefined";
 
   const toggleTheme = () => {
     setTheme((prev) => {
-      const newTheme = prev === 'dark' ? 'light' : 'dark';
-      localStorage.setItem('theme', newTheme);
-      return newTheme;
+      const next = prev === "dark" ? "light" : "dark";
+
+      if (typeof window !== "undefined") {
+        document.documentElement.setAttribute("data-theme", next);
+        localStorage.setItem("theme", next);
+      }
+
+      return next;
     });
   };
 
-  const value = useMemo(() => ({ theme, toggleTheme, mounted }), [theme, mounted]);
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme, mounted }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+}
 
-  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
-};
-
-export const useTheme = () => {
-  const context = useContext(ThemeContext);
-  if (!context) throw new Error('useTheme must be used within ThemeProvider');
-  return context;
-};
+export function useTheme() {
+  const ctx = useContext(ThemeContext);
+  if (!ctx) throw new Error("useTheme must be used inside ThemeProvider");
+  return ctx;
+}

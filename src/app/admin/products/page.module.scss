@@ -4,33 +4,20 @@
 
 .page {
   max-width: $container-max-width;
-  margin: 20px auto;
-  padding: $spacings-xl $spacings-md;
+  margin: 0 auto;
+  padding: $spacings-xxl $spacings-lg;
   min-height: 100vh;
 
   @include respond(sm) {
-    padding: $spacings-lg $spacings-sm;
+    padding: $spacings-xl $spacings-md;
   }
-}
-
-.loading,
-.empty {
-  text-align: center;
-  padding: $spacings-xxl;
-  color: var(--text-muted);
-  font-size: $font-sizes-lg;
-  min-height: 50vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: $spacings-xl;
-  padding-bottom: $spacings-lg;
+  margin-bottom: $spacings-xxl;
 
   h2 {
     color: var(--color-gold);
@@ -40,8 +27,7 @@
   }
 
   @include respond(sm) {
-    margin-bottom: $spacings-lg;
-    padding-bottom: $spacings-md;
+    margin-bottom: $spacings-xl;
 
     h2 {
       font-size: $font-sizes-xl;
@@ -56,8 +42,8 @@
   background: var(--color-gold);
   color: var(--color-black);
   border: none;
-  padding: $spacings-sm $spacings-lg;
-  border-radius: map.get($radius, sm);
+  padding: $spacings-md $spacings-lg;
+  border-radius: map.get($radius, md);
   font-weight: $font-weight-bold;
   font-size: $font-sizes-md;
   cursor: pointer;
@@ -65,7 +51,7 @@
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(249, 212, 87, 0.3);
+    box-shadow: 0 6px 20px rgba(249, 212, 87, 0.4);
   }
 
   &:active {
@@ -73,7 +59,7 @@
   }
 
   @include respond(sm) {
-    padding: $spacings-xs $spacings-md;
+    padding: $spacings-sm $spacings-md;
     font-size: $font-sizes-sm;
 
     span {
@@ -84,15 +70,15 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: $spacings-lg;
 
   @include respond(lg) {
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
   }
 
   @include respond(md) {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: $spacings-md;
   }
 
@@ -107,23 +93,17 @@
   border-radius: map.get($radius, lg);
   border: 1px solid var(--color-border);
   overflow: hidden;
-  transition: all $transition-base cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all $transition-base $ease-smooth;
   display: flex;
   flex-direction: column;
 
   &:hover {
-    transform: translateY(-5px);
+    transform: translateY(-8px);
     border-color: var(--color-gold);
-    box-shadow: 0 12px 28px rgba(249, 212, 87, 0.2);
-
-    .imageWrapper {
-      &::after {
-        opacity: 1;
-      }
-    }
+    box-shadow: 0 12px 32px rgba(249, 212, 87, 0.25);
 
     .image {
-      transform: scale(1.05);
+      transform: scale(1.08);
     }
   }
 }
@@ -131,35 +111,23 @@
 .imageWrapper {
   position: relative;
   width: 100%;
-  height: 240px;
-  overflow: hidden;
+  height: 280px;
   background: var(--skeleton-image-bg);
-
-  &::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      180deg,
-      transparent 0%,
-      rgba(0, 0, 0, 0.4) 100%
-    );
-    opacity: 0;
-    transition: opacity $transition-base;
-  }
+  overflow: hidden;
 
   @include respond(md) {
-    height: 200px;
+    height: 240px;
   }
 
   @include respond(sm) {
-    height: 220px;
+    height: 260px;
   }
 }
 
 .image {
-  object-fit: cover;
-  transition: transform $transition-base cubic-bezier(0.4, 0, 0.2, 1);
+  object-fit: contain;
+  padding: $spacings-lg;
+  transition: transform $transition-base $ease-smooth;
 }
 
 .content {
@@ -171,7 +139,7 @@
 
   h3 {
     color: var(--color-text);
-    font-size: $font-sizes-lg;
+    font-size: $font-sizes-xl;
     font-weight: $font-weight-bold;
     margin: 0;
     line-height: 1.3;
@@ -179,7 +147,7 @@
 
   p {
     color: var(--text-muted);
-    font-size: $font-sizes-md;
+    font-size: $font-sizes-lg;
     margin: 0;
     line-height: 1.4;
   }
@@ -201,19 +169,19 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: rgba(249, 212, 87, 0.15);
-  border: 1px solid rgba(249, 212, 87, 0.4);
+  background: rgba(249, 212, 87, 0.2);
+  border: 1px solid rgba(249, 212, 87, 0.5);
   color: var(--color-gold);
-  padding: $spacings-xs $spacings-md;
+  padding: $spacings-sm $spacings-lg;
   border-radius: map.get($radius, pill);
   font-weight: $font-weight-bold;
-  font-size: $font-sizes-md;
+  font-size: $font-sizes-lg;
   margin-top: auto;
   width: fit-content;
 
   @include respond(sm) {
-    font-size: $font-sizes-sm;
-    padding: 6px $spacings-sm;
+    font-size: $font-sizes-md;
+    padding: $spacings-xs $spacings-md;
   }
 }
 
@@ -221,7 +189,7 @@
   display: flex;
   gap: $spacings-xs;
   padding: $spacings-md $spacings-lg;
-  background: var(--color-bg);
+  background: var(--admin-bg);
   border-top: 1px solid var(--color-border);
 
   button {
@@ -229,18 +197,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: $spacings-sm;
+    padding: $spacings-md;
     background: var(--color-card-bg);
     border: 1px solid var(--color-border);
-    border-radius: map.get($radius, sm);
+    border-radius: map.get($radius, md);
     color: var(--color-text);
     cursor: pointer;
     transition: all $transition-base;
 
     &:hover {
-      background: var(--color-gold);
-      color: var(--color-black);
-      border-color: var(--color-gold);
       transform: translateY(-2px);
     }
 
@@ -248,20 +213,16 @@
       transform: translateY(0);
     }
 
-    &:first-child {
-      &:hover {
-        background: rgba(34, 197, 94, 0.2);
-        color: rgb(34, 197, 94);
-        border-color: rgb(34, 197, 94);
-      }
+    &:first-child:hover {
+      background: rgba(34, 197, 94, 0.2);
+      color: rgb(34, 197, 94);
+      border-color: rgb(34, 197, 94);
     }
 
-    &:last-child {
-      &:hover {
-        background: rgba(239, 68, 68, 0.2);
-        color: rgb(239, 68, 68);
-        border-color: rgb(239, 68, 68);
-      }
+    &:last-child:hover {
+      background: rgba(239, 68, 68, 0.2);
+      color: rgb(239, 68, 68);
+      border-color: rgb(239, 68, 68);
     }
   }
 
@@ -269,7 +230,164 @@
     padding: $spacings-sm $spacings-md;
 
     button {
-      padding: $spacings-xs;
+      padding: $spacings-sm;
     }
+  }
+}
+
+.empty {
+  text-align: center;
+  padding: $spacings-xxl * 2;
+  color: var(--text-muted);
+  font-size: $font-sizes-xl;
+
+  @include respond(sm) {
+    padding: $spacings-xxl;
+    font-size: $font-sizes-lg;
+  }
+}
+
+.skeletonTitle {
+  width: 180px;
+  height: 36px;
+  background: var(--skeleton-block-bg);
+  border-radius: map.get($radius, md);
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 0%, var(--shimmer-mid) 50%, transparent 100%);
+    animation: shimmer 1.8s ease-in-out infinite;
+  }
+
+  @include respond(sm) {
+    width: 140px;
+    height: 28px;
+  }
+}
+
+.skeletonBtn {
+  width: 160px;
+  height: 44px;
+  background: var(--skeleton-block-bg);
+  border-radius: map.get($radius, md);
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 0%, var(--shimmer-mid) 50%, transparent 100%);
+    animation: shimmer 1.8s ease-in-out infinite;
+  }
+
+  @include respond(sm) {
+    width: 48px;
+    height: 40px;
+  }
+}
+
+.skeletonCard {
+  background: var(--skeleton-card-bg);
+  border-radius: map.get($radius, lg);
+  border: 1px solid var(--skeleton-border);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.skeletonImage {
+  width: 100%;
+  height: 280px;
+  background: var(--skeleton-image-bg);
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 0%, var(--shimmer-mid) 50%, transparent 100%);
+    animation: shimmer 1.8s ease-in-out infinite;
+  }
+
+  @include respond(md) {
+    height: 240px;
+  }
+
+  @include respond(sm) {
+    height: 260px;
+  }
+}
+
+.skeletonContent {
+  padding: $spacings-lg;
+  display: flex;
+  flex-direction: column;
+  gap: $spacings-sm;
+
+  @include respond(sm) {
+    padding: $spacings-md;
+  }
+}
+
+.skeletonLine {
+  height: 20px;
+  background: var(--skeleton-block-bg);
+  border-radius: map.get($radius, sm);
+  position: relative;
+  overflow: hidden;
+
+  &:first-child {
+    width: 65%;
+  }
+
+  &:last-child {
+    width: 50%;
+    height: 16px;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 0%, var(--shimmer-mid) 50%, transparent 100%);
+    animation: shimmer 1.8s ease-in-out infinite;
+  }
+}
+
+.skeletonPrice {
+  width: 100px;
+  height: 32px;
+  background: var(--skeleton-price-bg);
+  border: 1px solid var(--skeleton-price-border);
+  border-radius: map.get($radius, pill);
+  margin-top: $spacings-sm;
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 0%, var(--shimmer-mid) 50%, transparent 100%);
+    animation: shimmer 1.8s ease-in-out infinite;
+  }
+
+  @include respond(sm) {
+    height: 28px;
+  }
+}
+
+@keyframes shimmer {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
   }
 }

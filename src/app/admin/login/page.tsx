@@ -41,18 +41,22 @@ export default function AdminLogin() {
   return (
     <div className={styles.login}>
       <div className={styles.card}>
-        <Image
-          src="/logo.png"
-          alt={t.header.logoAlt}
-          width={110}
-          height={110}
-          className={styles.logo}
-          priority
-        />
-        <h2>{t.admin.login}</h2>
-        
-        <form onSubmit={handleSubmit}>
+        <div className={styles.logoWrapper}>
+          <Image
+            src="/logo.png"
+            alt={t.header.logoAlt}
+            width={120}
+            height={120}
+            className={styles.logo}
+            priority
+          />
+        </div>
+
+        <h2 className={styles.h2}>{t.admin.login}</h2>
+
+        <form className={styles.form} onSubmit={handleSubmit}>
           <input
+            className={styles.input}
             type="text"
             placeholder={t.admin.username}
             value={username}
@@ -61,7 +65,9 @@ export default function AdminLogin() {
             disabled={loading}
             autoComplete="username"
           />
+
           <input
+            className={styles.input}
             type="password"
             placeholder={t.admin.password}
             value={password}
@@ -70,11 +76,16 @@ export default function AdminLogin() {
             disabled={loading}
             autoComplete="current-password"
           />
-          <button type="submit" disabled={loading}>
+
+          <button
+            className={styles.button}
+            type="submit"
+            disabled={loading}
+          >
             {loading ? t.common.loading : t.admin.loginButton}
           </button>
         </form>
-        
+
         {error && <p className={styles.error}>{error}</p>}
       </div>
     </div>

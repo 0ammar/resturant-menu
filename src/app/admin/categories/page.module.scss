@@ -1,33 +1,33 @@
+@use "sass:map";
 @use "@/styles/variables" as *;
 @use "@/styles/mixins" as *;
 
 .page {
   max-width: $container-max-width;
-  margin: 20px auto 0;
-  padding: $spacings-xl $spacings-md;
-}
+  margin: 0 auto;
+  padding: $spacings-xxl $spacings-lg;
+  min-height: 100vh;
 
-.loading {
-  text-align: center;
-  padding: $spacings-xxl;
-  color: var(--text-muted);
-  font-size: $font-sizes-lg;
+  @include respond(sm) {
+    padding: $spacings-xl $spacings-md;
+  }
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: $spacings-xl;
+  margin-bottom: $spacings-xxl;
 
   h2 {
     color: var(--color-gold);
     font-size: $font-sizes-xxl;
     font-weight: $font-weight-bold;
+    margin: 0;
   }
 
   @include respond(sm) {
-    margin-bottom: $spacings-lg;
+    margin-bottom: $spacings-xl;
 
     h2 {
       font-size: $font-sizes-xl;
@@ -39,22 +39,27 @@
   display: flex;
   align-items: center;
   gap: $spacings-xs;
-  background: var(--color-button-bg);
-  color: var(--color-button-text);
+  background: var(--color-gold);
+  color: var(--color-black);
   border: none;
-  padding: $spacings-sm $spacings-lg;
-  border-radius: $radius-sm;
+  padding: $spacings-md $spacings-lg;
+  border-radius: map.get($radius, md);
   font-weight: $font-weight-bold;
   font-size: $font-sizes-md;
   cursor: pointer;
-  transition: transform $transition-base;
+  transition: all $transition-base;
 
   &:hover {
     transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(249, 212, 87, 0.4);
+  }
+
+  &:active {
+    transform: translateY(0);
   }
 
   @include respond(sm) {
-    padding: $spacings-xs $spacings-md;
+    padding: $spacings-sm $spacings-md;
     font-size: $font-sizes-sm;
 
     span {
@@ -85,41 +90,43 @@
 
 .card {
   background: var(--color-card-bg);
-  padding: $spacings-lg;
-  border-radius: $radius-md;
+  padding: $spacings-xl;
+  border-radius: map.get($radius, lg);
   border: 1px solid var(--color-border);
   text-align: center;
   cursor: pointer;
   transition: all $transition-base $ease-smooth;
+  position: relative;
 
   &:hover {
-    transform: translateY(-5px);
+    transform: translateY(-8px);
     border-color: var(--color-gold);
-    box-shadow: 0 8px 20px rgba(249, 212, 87, 0.15);
+    box-shadow: 0 12px 32px rgba(249, 212, 87, 0.25);
   }
 
   h3 {
     color: var(--color-text);
-    font-size: $font-sizes-lg;
+    font-size: $font-sizes-xl;
     font-weight: $font-weight-bold;
-    margin-bottom: $spacings-xs;
+    margin: 0 0 $spacings-sm 0;
   }
 
   p {
     color: var(--text-muted);
-    font-size: $font-sizes-md;
-    margin-bottom: $spacings-md;
+    font-size: $font-sizes-lg;
+    margin: 0 0 $spacings-lg 0;
   }
 
   @include respond(sm) {
-    padding: $spacings-md;
+    padding: $spacings-lg;
 
     h3 {
-      font-size: $font-sizes-sm;
+      font-size: $font-sizes-md;
     }
 
     p {
-      font-size: $font-sizes-xs;
+      font-size: $font-sizes-sm;
+      margin-bottom: $spacings-md;
     }
   }
 }
@@ -133,9 +140,9 @@
     background: transparent;
     border: 1px solid var(--color-border);
     color: var(--color-gold);
-    width: 32px;
-    height: 32px;
-    border-radius: $radius-full;
+    width: 40px;
+    height: 40px;
+    border-radius: map.get($radius, full);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -145,17 +152,134 @@
     &:hover {
       background: rgba(249, 212, 87, 0.2);
       border-color: var(--color-gold);
-      transform: scale(1.1);
+      transform: scale(1.15);
+    }
+
+    &:first-child:hover {
+      background: rgba(34, 197, 94, 0.2);
+      color: rgb(34, 197, 94);
+      border-color: rgb(34, 197, 94);
+    }
+
+    &:last-child:hover {
+      background: rgba(239, 68, 68, 0.2);
+      color: rgb(239, 68, 68);
+      border-color: rgb(239, 68, 68);
     }
 
     @include respond(sm) {
-      width: 28px;
-      height: 28px;
+      width: 32px;
+      height: 32px;
 
       svg {
         width: 14px;
         height: 14px;
       }
     }
+  }
+}
+
+.empty {
+  text-align: center;
+  padding: $spacings-xxl * 2;
+  color: var(--text-muted);
+  font-size: $font-sizes-xl;
+
+  @include respond(sm) {
+    padding: $spacings-xxl;
+    font-size: $font-sizes-lg;
+  }
+}
+
+.skeletonTitle {
+  width: 200px;
+  height: 36px;
+  background: var(--skeleton-block-bg);
+  border-radius: map.get($radius, md);
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 0%, var(--shimmer-mid) 50%, transparent 100%);
+    animation: shimmer 1.8s ease-in-out infinite;
+  }
+
+  @include respond(sm) {
+    width: 150px;
+    height: 28px;
+  }
+}
+
+.skeletonBtn {
+  width: 160px;
+  height: 44px;
+  background: var(--skeleton-block-bg);
+  border-radius: map.get($radius, md);
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 0%, var(--shimmer-mid) 50%, transparent 100%);
+    animation: shimmer 1.8s ease-in-out infinite;
+  }
+
+  @include respond(sm) {
+    width: 48px;
+    height: 40px;
+  }
+}
+
+.skeletonCard {
+  background: var(--skeleton-card-bg);
+  padding: $spacings-xl;
+  border-radius: map.get($radius, lg);
+  border: 1px solid var(--skeleton-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacings-sm;
+
+  @include respond(sm) {
+    padding: $spacings-lg;
+  }
+}
+
+.skeletonText {
+  height: 20px;
+  background: var(--skeleton-block-bg);
+  border-radius: map.get($radius, sm);
+  position: relative;
+  overflow: hidden;
+
+  &:first-child {
+    width: 70%;
+  }
+
+  &:last-child {
+    width: 50%;
+    height: 16px;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 0%, var(--shimmer-mid) 50%, transparent 100%);
+    animation: shimmer 1.8s ease-in-out infinite;
+  }
+}
+
+@keyframes shimmer {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
   }
 }

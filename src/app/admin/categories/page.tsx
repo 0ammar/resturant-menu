@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { Plus, Edit2, Trash2 } from 'lucide-react';
 import { Modal } from '@/components';
@@ -18,10 +18,10 @@ export default function CategoriesPage() {
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
   const router = useRouter();
 
-  const categoryFields = [
+  const categoryFields = useMemo(() => [
     { name: 'name', label: t.admin.nameEn, required: true },
     { name: 'nameAr', label: t.admin.nameAr, required: true },
-  ];
+  ], [t]);
 
   const fetchCategories = useCallback(async () => {
     try {
@@ -32,7 +32,7 @@ export default function CategoriesPage() {
       console.error('Failed to fetch:', error);
       setCategories([]);
     } finally {
-      setLoading(false);
+      setTimeout(() => setLoading(false), 400);
     }
   }, []);
 
@@ -61,13 +61,8 @@ export default function CategoriesPage() {
 
         const saved = await res.json();
 
-        if (!res.ok) {
+        if (!res.ok || !saved?.id) {
           console.error("API Error:", saved);
-          return;
-        }
-
-        if (!saved?.id) {
-          console.error("Invalid response:", saved);
           return;
         }
 
@@ -80,10 +75,30 @@ export default function CategoriesPage() {
     } catch (error) {
       console.error('Failed:', error);
       await fetchCategories();
+    } finally {
+      setModalMode(null);
+      setSelectedCategory(null);
     }
   };
 
-  if (loading) return <div className={styles.loading}>{t.common.loading}</div>;
+  if (loading) {
+    return (
+      <div className={styles.page}>
+        <div className={styles.header}>
+          <div className={styles.skeletonTitle} />
+          <div className={styles.skeletonBtn} />
+        </div>
+        <div className={styles.grid}>
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div key={i} className={styles.skeletonCard}>
+              <div className={styles.skeletonText} />
+              <div className={styles.skeletonText} />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.page}>

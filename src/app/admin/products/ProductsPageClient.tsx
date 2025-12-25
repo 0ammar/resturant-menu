@@ -36,7 +36,6 @@ export default function ProductsPageClient({ categoryId }: Props) {
   }, [categoryId]);
 
   const fetchProducts = useCallback(async () => {
-    setLoading(true);
     try {
       const res = await fetch(fetchUrl, { cache: "no-store" });
       const data = await res.json();
@@ -45,7 +44,7 @@ export default function ProductsPageClient({ categoryId }: Props) {
       console.error("Failed to fetch:", error);
       setProducts([]);
     } finally {
-      setLoading(false);
+      setTimeout(() => setLoading(false), 400);
     }
   }, [fetchUrl]);
 
@@ -106,7 +105,28 @@ export default function ProductsPageClient({ categoryId }: Props) {
     }
   };
 
-  if (loading) return <div className={styles.loading}>{t.common.loading}</div>;
+  if (loading) {
+    return (
+      <div className={styles.page}>
+        <div className={styles.header}>
+          <div className={styles.skeletonTitle} />
+          <div className={styles.skeletonBtn} />
+        </div>
+        <div className={styles.grid}>
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div key={i} className={styles.skeletonCard}>
+              <div className={styles.skeletonImage} />
+              <div className={styles.skeletonContent}>
+                <div className={styles.skeletonLine} />
+                <div className={styles.skeletonLine} />
+                <div className={styles.skeletonPrice} />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.page}>
@@ -139,7 +159,6 @@ export default function ProductsPageClient({ categoryId }: Props) {
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     className={styles.image}
-                    priority
                   />
                 </div>
 

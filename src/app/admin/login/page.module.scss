@@ -1,3 +1,4 @@
+@use "sass:map";
 @use "@/styles/variables" as *;
 @use "@/styles/mixins" as *;
 
@@ -7,104 +8,132 @@
   justify-content: center;
   min-height: 100vh;
   padding: $spacings-lg;
-  background-color: $color-black;
+  background: var(--color-bg);
 }
 
 .card {
-  background: rgba($color-white, 0.05);
-  padding: $spacings-xl;
-  border-radius: $radius-md;
-  border: 3px solid $color-gold;
+  background: var(--color-card-bg);
+  padding: $spacings-xxl * 1.5;
+  border-radius: map.get($radius, xl);
+  border: 3px solid var(--color-gold);
   width: 100%;
-  max-width: 380px;
+  max-width: 450px;
   text-align: center;
-  animation: fadeInUp 0.6s $ease-smooth;
+  box-shadow: 0 20px 60px rgba(249, 212, 87, 0.3);
 
-  .logo {
-    margin: 0 auto $spacings-lg;
+  @include respond(sm) {
+    padding: $spacings-xxl;
+    max-width: 360px;
   }
+}
 
-  h2 {
-    color: $color-gold;
-    margin-bottom: $spacings-lg;
+.logoWrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: $spacings-xl;
+}
+
+.logo {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 16px rgba(249, 212, 87, 0.4));
+
+  @include respond(sm) {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+.h2 {
+  color: var(--color-gold);
+  margin: 0 0 $spacings-xxl 0;
+  font-size: $font-sizes-xxl;
+  font-weight: $font-weight-bold;
+  text-shadow: 0 2px 8px rgba(249, 212, 87, 0.3);
+
+  @include respond(sm) {
     font-size: $font-sizes-xl;
-    font-weight: $font-weight-bold;
+    margin-bottom: $spacings-xl;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: $spacings-lg;
+}
+
+.input {
+  padding: $spacings-md $spacings-lg;
+  border-radius: map.get($radius, md);
+  border: 2px solid var(--color-border);
+  background: var(--admin-input-bg);
+  color: var(--color-text);
+  font-size: $font-sizes-md;
+  transition: all $transition-base;
+
+  &::placeholder {
+    color: var(--text-muted);
   }
 
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: $spacings-md;
-
-    input {
-      padding: $spacings-sm;
-      border-radius: $radius-sm;
-      border: 1px solid rgba($color-gold, 0.3);
-      background: rgba($color-black, 0.5);
-      color: $color-white;
-      font-size: $font-sizes-md;
-      transition: border-color $transition-base;
-
-      &::placeholder {
-        color: rgba($color-white, 0.5);
-      }
-
-      &:focus {
-        outline: none;
-        border-color: $color-gold;
-      }
-
-      &:disabled {
-        opacity: 0.5;
-      }
-    }
-
-    button {
-      background: $color-gold;
-      color: $color-black;
-      font-weight: $font-weight-bold;
-      border: none;
-      border-radius: $radius-sm;
-      padding: $spacings-sm;
-      font-size: $font-sizes-md;
-      cursor: pointer;
-      transition: all $transition-base;
-
-      &:hover:not(:disabled) {
-        transform: translateY(-2px);
-      }
-
-      &:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-      }
-    }
+  &:focus {
+    outline: none;
+    border-color: var(--color-gold);
+    background: var(--input-focus-bg);
+    box-shadow: 0 0 0 4px rgba(249, 212, 87, 0.15);
   }
 
-  .error {
-    color: #ff4444;
-    font-size: $font-sizes-sm;
-    margin-top: $spacings-md;
-    padding: $spacings-xs;
-    background: rgba(255, 68, 68, 0.1);
-    border-radius: $radius-sm;
-    border: 1px solid rgba(255, 68, 68, 0.3);
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
 
   @include respond(sm) {
-    padding: $spacings-lg;
-
-    h2 {
-      font-size: $font-sizes-lg;
-      margin-bottom: $spacings-md;
-    }
-
-    form {
-      input,
-      button {
-        padding: $spacings-xs;
-        font-size: $font-sizes-sm;
-      }
-    }
+    padding: $spacings-sm $spacings-md;
+    font-size: $font-sizes-sm;
   }
+}
+
+.button {
+  background: var(--color-gold);
+  color: var(--color-black);
+  font-weight: $font-weight-bold;
+  border: none;
+  border-radius: map.get($radius, md);
+  padding: $spacings-md $spacings-lg;
+  font-size: $font-sizes-lg;
+  cursor: pointer;
+  transition: all $transition-base;
+  margin-top: $spacings-sm;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(249, 212, 87, 0.5);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  @include respond(sm) {
+    padding: $spacings-sm $spacings-md;
+    font-size: $font-sizes-md;
+  }
+}
+
+.error {
+  color: rgb(239, 68, 68);
+  font-size: $font-sizes-sm;
+  margin: $spacings-lg 0 0 0;
+  padding: $spacings-md;
+  background: rgba(239, 68, 68, 0.15);
+  border-radius: map.get($radius, md);
+  border: 2px solid rgba(239, 68, 68, 0.4);
+  font-weight: $font-weight-bold;
 }
