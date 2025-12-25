@@ -21,9 +21,10 @@ export const MealCard = ({ meal }: MealCardProps) => {
       <Image
         src={imgSrc}
         alt={name}
-        width={130}
+        width={100}
         height={100}
         className={styles.img}
+        priority
       />
 
       <div className={styles.content}>

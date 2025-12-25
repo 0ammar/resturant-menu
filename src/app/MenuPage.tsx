@@ -1,60 +1,55 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { LoadingSkeleton, CategoryNav, MealCard } from "@/components";
 import { useLanguage } from "@/lib/LanguageContext";
-import { CategoryNav, MealCard, LoadingSkeleton } from "@/components";
 import type { Category, Product } from "@/lib/types";
-import styles from "./page.module.scss";
+import styles from "./MenuPage.module.scss";
 
-export default function MenuPage() {
+type Props = {
+  introDone: boolean;
+};
+
+export default function MenuPage({ introDone }: Props) {
   const { t } = useLanguage();
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [menuItems, setMenuItems] = useState<Product[]>([]);
   const [activeCategory, setActiveCategory] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(true);
-  const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
-
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!introDone) return;
+
     const fetchData = async () => {
       setLoading(true);
-
       try {
-        await delay(1500);
         const [catsRes, itemsRes] = await Promise.all([
           fetch("/api/categories", { cache: "no-store" }),
           fetch("/api/products", { cache: "no-store" }),
         ]);
-
         const cats = await catsRes.json();
         const items = await itemsRes.json();
 
-        const safeCats: Category[] = Array.isArray(cats) ? cats : [];
-        const safeItems: Product[] = Array.isArray(items) ? items : [];
-
-        setCategories(safeCats);
-        setMenuItems(safeItems);
-
-        if (safeCats.length > 0) setActiveCategory(safeCats[0].id);
-      } catch (error) {
-        console.error("Failed to fetch:", error);
+        setCategories(Array.isArray(cats) ? cats : []);
+        setMenuItems(Array.isArray(items) ? items : []);
+        if (cats.length > 0) setActiveCategory(cats[0].id);
+      } catch {
         setCategories([]);
         setMenuItems([]);
-        setActiveCategory("");
       } finally {
         setLoading(false);
       }
     };
 
     fetchData();
-  }, []);
+  }, [introDone]);
 
   if (loading) {
     return (
       <div className={styles.page}>
         <div className={styles.container}>
-          <LoadingSkeleton />
+          <LoadingSkeleton itemsCount={8} chipsCount={6} />
         </div>
       </div>
     );
@@ -69,7 +64,6 @@ export default function MenuPage() {
         activeCategory={activeCategory}
         onCategoryChange={setActiveCategory}
       />
-
       <div className={styles.container}>
         {filteredItems.length > 0 ? (
           <div className={styles.grid}>

@@ -1,3 +1,5 @@
+"use client";
+
 import styles from "./LoadingSkeleton.module.scss";
 
 type Props = {

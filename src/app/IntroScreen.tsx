@@ -1,11 +1,13 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState, useMemo } from "react";
 import Image from "next/image";
 import { useLanguage } from "@/lib/LanguageContext";
 import styles from "./IntroScreen.module.scss";
-import { LoadingSkeleton } from "@/components";
+
+type Props = {
+  onFinish?: () => void;
+};
 
 type Particle = {
   id: number;
@@ -14,20 +16,15 @@ type Particle = {
   animationDuration: string;
 };
 
-// ✅ Pure deterministic "random" (no Math.random, no Date, no crypto)
 function pseudoRandom(seed: number) {
   const x = Math.sin(seed) * 43758.5453123;
-  return x - Math.floor(x); // frac
+  return x - Math.floor(x);
 }
 
-export default function IntroScreen() {
-  const router = useRouter();
+export default function IntroScreen({ onFinish }: Props) {
   const { t } = useLanguage();
   const [phase, setPhase] = useState(0);
-  const [navigating, setNavigating] = useState(false);
 
-
-  // ✅ Stable on every render + passes purity rule
   const particles: Particle[] = useMemo(() => {
     return Array.from({ length: 20 }, (_, i) => {
       const r1 = pseudoRandom(i * 12.9898 + 0.1);
@@ -49,18 +46,12 @@ export default function IntroScreen() {
       setTimeout(() => setPhase(2), 800),
       setTimeout(() => setPhase(3), 1600),
       setTimeout(() => setPhase(4), 2600),
-      setTimeout(() => {
-        setNavigating(true);
-        router.push("/menu");
-      }, 3400)
+      setTimeout(() => onFinish?.(), 3400),
     ];
 
     return () => timers.forEach(clearTimeout);
-  }, [router]);
+  }, [onFinish]);
 
-  if (navigating) {
-    return <LoadingSkeleton />;
-  }
 
   return (
     <div className={`${styles.intro} ${phase >= 4 ? styles.exit : ""}`}>

@@ -1,11 +1,19 @@
-import IntroScreen from './IntroScreen';
-import type { Metadata } from 'next';
+"use client";
 
-export const metadata: Metadata = {
-  title: 'Restaurant Menu',
-  description: 'Experience fine dining at its best',
-};
+import { useState } from "react";
+import IntroScreen from "./IntroScreen";
+import MenuPage from "./MenuPage";
 
 export default function HomePage() {
-  return <IntroScreen />;
+  const [introDone, setIntroDone] = useState(false);
+
+  const handleIntroFinish = () => {
+    setIntroDone(true);
+  };
+
+  if (!introDone) {
+    return <IntroScreen onFinish={handleIntroFinish} />;
+  }
+
+  return <MenuPage introDone={introDone} />;
 }
