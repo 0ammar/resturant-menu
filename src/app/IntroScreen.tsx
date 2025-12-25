@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useLanguage } from "@/lib/LanguageContext";
 import styles from "./IntroScreen.module.scss";
@@ -24,9 +24,14 @@ function pseudoRandom(seed: number) {
 export default function IntroScreen({ onFinish }: Props) {
   const { t } = useLanguage();
   const [phase, setPhase] = useState(0);
+  const [mounted, setMounted] = useState(false);
+  const [particles, setParticles] = useState<Particle[]>([]);
 
-  const particles: Particle[] = useMemo(() => {
-    return Array.from({ length: 20 }, (_, i) => {
+  // Generate particles only on client
+  useEffect(() => {
+    setMounted(true);
+
+    const generatedParticles: Particle[] = Array.from({ length: 20 }, (_, i) => {
       const r1 = pseudoRandom(i * 12.9898 + 0.1);
       const r2 = pseudoRandom(i * 78.233 + 0.2);
       const r3 = pseudoRandom(i * 39.346 + 0.3);
@@ -38,8 +43,11 @@ export default function IntroScreen({ onFinish }: Props) {
         animationDuration: `${3 + r3 * 4}s`,
       };
     });
+
+    setParticles(generatedParticles);
   }, []);
 
+  // Phase animations
   useEffect(() => {
     const timers = [
       setTimeout(() => setPhase(1), 100),
@@ -52,25 +60,26 @@ export default function IntroScreen({ onFinish }: Props) {
     return () => timers.forEach(clearTimeout);
   }, [onFinish]);
 
-
   return (
     <div className={`${styles.intro} ${phase >= 4 ? styles.exit : ""}`}>
       <div className={`${styles.curtainLeft} ${phase >= 1 ? styles.open : ""}`} />
       <div className={`${styles.curtainRight} ${phase >= 1 ? styles.open : ""}`} />
 
-      <div className={styles.particles}>
-        {particles.map((p) => (
-          <div
-            key={p.id}
-            className={styles.particle}
-            style={{
-              left: p.left,
-              animationDelay: p.animationDelay,
-              animationDuration: p.animationDuration,
-            }}
-          />
-        ))}
-      </div>
+      {mounted && (
+        <div className={styles.particles}>
+          {particles.map((p) => (
+            <div
+              key={p.id}
+              className={styles.particle}
+              style={{
+                left: p.left,
+                animationDelay: p.animationDelay,
+                animationDuration: p.animationDuration,
+              }}
+            />
+          ))}
+        </div>
+      )}
 
       <div className={styles.content}>
         <div className={`${styles.logoContainer} ${phase >= 2 ? styles.visible : ""}`}>

@@ -10,6 +10,10 @@ export const metadata: Metadata = {
     default: 'Restaurant Menu',
   },
   description: 'The best restaurant in town',
+  icons: {
+    icon: "/logo.png",
+    shortcut: '/logo.png'
+  }
 };
 
 export default function RootLayout({

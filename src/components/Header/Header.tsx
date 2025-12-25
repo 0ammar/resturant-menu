@@ -10,13 +10,11 @@ import styles from "./Header.module.scss";
 
 export const Header = () => {
   const { language, setLanguage, t, dir } = useLanguage();
-  const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme, mounted } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
-  const toggleLanguage = () => {
-    setLanguage(language === "en" ? "ar" : "en");
-  };
+  const toggleLanguage = () => setLanguage(language === "en" ? "ar" : "en");
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -29,10 +27,13 @@ export const Header = () => {
       document.addEventListener("mousedown", handleClickOutside);
     }
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isMenuOpen]);
+
+  // Only hide UI until mounted, hooks still run
+  if (!mounted) {
+    return <header className={styles.navbar} />; // empty header placeholder
+  }
 
   return (
     <header className={styles.navbar}>
@@ -50,16 +51,12 @@ export const Header = () => {
         </Link>
       </div>
 
-      <Link href="/menu" className={styles.brand}>
+      <Link href="/" className={styles.brand}>
         <Image src="/logo.png" alt={t.header.logoAlt} width={100} height={100} className={styles.logo} priority />
       </Link>
 
       <div className={styles.leftSection}>
-        <button
-          className={styles.iconBtn}
-          onClick={toggleTheme}
-          aria-label="Toggle theme"
-        >
+        <button className={styles.iconBtn} onClick={toggleTheme} aria-label="Toggle theme">
           {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
         </button>
 

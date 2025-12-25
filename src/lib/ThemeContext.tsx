@@ -7,27 +7,26 @@ type Theme = 'light' | 'dark';
 interface ThemeContextType {
   theme: Theme;
   toggleTheme: () => void;
+  mounted: boolean; // to track when client is ready
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-function getInitialTheme(): Theme {
-  if (typeof window === 'undefined') return 'dark';
-  
-  const savedTheme = localStorage.getItem('theme') as Theme | null;
-  if (savedTheme && (savedTheme === 'light' || savedTheme === 'dark')) {
-    return savedTheme;
-  }
-  return 'dark';
-}
-
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [theme, setTheme] = useState<Theme>(getInitialTheme);
+  const [theme, setTheme] = useState<Theme>('dark'); // safe server default
+  const [mounted, setMounted] = useState(false);
 
-  // Apply theme to document
+  // Only runs on client
   useEffect(() => {
+    const savedTheme = localStorage.getItem('theme') as Theme | null;
+    if (savedTheme === 'light' || savedTheme === 'dark') setTheme(savedTheme);
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
     document.documentElement.setAttribute('data-theme', theme);
-  }, [theme]);
+  }, [theme, mounted]);
 
   const toggleTheme = () => {
     setTheme((prev) => {
@@ -37,21 +36,13 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  const value = useMemo<ThemeContextType>(
-    () => ({
-      theme,
-      toggleTheme,
-    }),
-    [theme]
-  );
+  const value = useMemo(() => ({ theme, toggleTheme, mounted }), [theme, mounted]);
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 };
 
 export const useTheme = () => {
   const context = useContext(ThemeContext);
-  if (!context) {
-    throw new Error('useTheme must be used within ThemeProvider');
-  }
+  if (!context) throw new Error('useTheme must be used within ThemeProvider');
   return context;
 };

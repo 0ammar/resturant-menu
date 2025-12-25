@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { LoadingSkeleton, CategoryNav, MealCard } from "@/components";
+import { CategoryNav, MealCard } from "@/components";
 import { useLanguage } from "@/lib/LanguageContext";
 import type { Category, Product } from "@/lib/types";
 import styles from "./MenuPage.module.scss";
@@ -16,13 +16,11 @@ export default function MenuPage({ introDone }: Props) {
   const [categories, setCategories] = useState<Category[]>([]);
   const [menuItems, setMenuItems] = useState<Product[]>([]);
   const [activeCategory, setActiveCategory] = useState<string>("");
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!introDone) return;
 
     const fetchData = async () => {
-      setLoading(true);
       try {
         const [catsRes, itemsRes] = await Promise.all([
           fetch("/api/categories", { cache: "no-store" }),
@@ -37,23 +35,12 @@ export default function MenuPage({ introDone }: Props) {
       } catch {
         setCategories([]);
         setMenuItems([]);
-      } finally {
-        setLoading(false);
       }
     };
 
     fetchData();
   }, [introDone]);
 
-  if (loading) {
-    return (
-      <div className={styles.page}>
-        <div className={styles.container}>
-          <LoadingSkeleton itemsCount={8} chipsCount={6} />
-        </div>
-      </div>
-    );
-  }
 
   const filteredItems = menuItems.filter((item) => item.categoryId === activeCategory);
 
