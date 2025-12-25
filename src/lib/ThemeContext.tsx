@@ -7,16 +7,15 @@ type Theme = 'light' | 'dark';
 interface ThemeContextType {
   theme: Theme;
   toggleTheme: () => void;
-  mounted: boolean; // to track when client is ready
+  mounted: boolean; 
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [theme, setTheme] = useState<Theme>('dark'); // safe server default
+  const [theme, setTheme] = useState<Theme>('dark'); 
   const [mounted, setMounted] = useState(false);
 
-  // Only runs on client
 useEffect(() => {
   setTimeout(() => {
     const savedTheme = localStorage.getItem('theme') as Theme | null;
