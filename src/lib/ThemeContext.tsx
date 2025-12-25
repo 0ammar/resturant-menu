@@ -17,11 +17,14 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const [mounted, setMounted] = useState(false);
 
   // Only runs on client
-  useEffect(() => {
+useEffect(() => {
+  setTimeout(() => {
     const savedTheme = localStorage.getItem('theme') as Theme | null;
-    if (savedTheme === 'light' || savedTheme === 'dark') setTheme(savedTheme);
+    setTheme(savedTheme === 'light' || savedTheme === 'dark' ? savedTheme : 'dark');
     setMounted(true);
-  }, []);
+  }, 0);
+}, []);
+
 
   useEffect(() => {
     if (!mounted) return;

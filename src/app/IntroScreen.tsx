@@ -5,16 +5,9 @@ import Image from "next/image";
 import { useLanguage } from "@/lib/LanguageContext";
 import styles from "./IntroScreen.module.scss";
 
-type Props = {
-  onFinish?: () => void;
-};
+type Props = { onFinish?: () => void };
 
-type Particle = {
-  id: number;
-  left: string;
-  animationDelay: string;
-  animationDuration: string;
-};
+type Particle = { id: number; left: string; animationDelay: string; animationDuration: string };
 
 function pseudoRandom(seed: number) {
   const x = Math.sin(seed) * 43758.5453123;
@@ -24,30 +17,30 @@ function pseudoRandom(seed: number) {
 export default function IntroScreen({ onFinish }: Props) {
   const { t } = useLanguage();
   const [phase, setPhase] = useState(0);
-  const [mounted, setMounted] = useState(false);
   const [particles, setParticles] = useState<Particle[]>([]);
+  const [mounted, setMounted] = useState(false);
 
-  // Generate particles only on client
+  // Only run on client
   useEffect(() => {
-    setMounted(true);
+    // Defer state updates to avoid cascading renders
+    setTimeout(() => {
+      const generatedParticles: Particle[] = Array.from({ length: 20 }, (_, i) => {
+        const r1 = pseudoRandom(i * 12.9898 + 0.1);
+        const r2 = pseudoRandom(i * 78.233 + 0.2);
+        const r3 = pseudoRandom(i * 39.346 + 0.3);
+        return {
+          id: i,
+          left: `${r1 * 100}%`,
+          animationDelay: `${r2 * 3}s`,
+          animationDuration: `${3 + r3 * 4}s`,
+        };
+      });
 
-    const generatedParticles: Particle[] = Array.from({ length: 20 }, (_, i) => {
-      const r1 = pseudoRandom(i * 12.9898 + 0.1);
-      const r2 = pseudoRandom(i * 78.233 + 0.2);
-      const r3 = pseudoRandom(i * 39.346 + 0.3);
-
-      return {
-        id: i,
-        left: `${r1 * 100}%`,
-        animationDelay: `${r2 * 3}s`,
-        animationDuration: `${3 + r3 * 4}s`,
-      };
-    });
-
-    setParticles(generatedParticles);
+      setParticles(generatedParticles);
+      setMounted(true);
+    }, 0);
   }, []);
 
-  // Phase animations
   useEffect(() => {
     const timers = [
       setTimeout(() => setPhase(1), 100),
@@ -56,43 +49,35 @@ export default function IntroScreen({ onFinish }: Props) {
       setTimeout(() => setPhase(4), 2600),
       setTimeout(() => onFinish?.(), 3400),
     ];
-
     return () => timers.forEach(clearTimeout);
   }, [onFinish]);
+
+  if (!mounted) return null;
 
   return (
     <div className={`${styles.intro} ${phase >= 4 ? styles.exit : ""}`}>
       <div className={`${styles.curtainLeft} ${phase >= 1 ? styles.open : ""}`} />
       <div className={`${styles.curtainRight} ${phase >= 1 ? styles.open : ""}`} />
 
-      {mounted && (
-        <div className={styles.particles}>
-          {particles.map((p) => (
-            <div
-              key={p.id}
-              className={styles.particle}
-              style={{
-                left: p.left,
-                animationDelay: p.animationDelay,
-                animationDuration: p.animationDuration,
-              }}
-            />
-          ))}
-        </div>
-      )}
+      <div className={styles.particles}>
+        {particles.map((p) => (
+          <div
+            key={p.id}
+            className={styles.particle}
+            style={{
+              left: p.left,
+              animationDelay: p.animationDelay,
+              animationDuration: p.animationDuration,
+            }}
+          />
+        ))}
+      </div>
 
       <div className={styles.content}>
         <div className={`${styles.logoContainer} ${phase >= 2 ? styles.visible : ""}`}>
           <div className={styles.logoRing} />
           <div className={styles.logoWrapper}>
-            <Image
-              src="/logo.png"
-              alt={t.header.logoAlt}
-              width={400}
-              height={400}
-              className={styles.logo}
-              priority
-            />
+            <Image src="/logo.png" alt={t.header.logoAlt} width={400} height={400} className={styles.logo} priority />
           </div>
         </div>
 
