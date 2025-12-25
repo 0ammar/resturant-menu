@@ -50,12 +50,21 @@
   
   color-scheme: light;
 }
-
+body::-webkit-scrollbar {
+  display: none;
+}
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
   transition: background-color 300ms ease, color 300ms ease, border-color 300ms ease;
+
+   scrollbar-width: none;
+  -ms-overflow-style: none;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 html {

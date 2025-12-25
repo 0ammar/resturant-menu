@@ -13,12 +13,15 @@ export default function MenuPage() {
   const [menuItems, setMenuItems] = useState<Product[]>([]);
   const [activeCategory, setActiveCategory] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
+  const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
+
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
 
       try {
+        await delay(1500);
         const [catsRes, itemsRes] = await Promise.all([
           fetch("/api/categories", { cache: "no-store" }),
           fetch("/api/products", { cache: "no-store" }),

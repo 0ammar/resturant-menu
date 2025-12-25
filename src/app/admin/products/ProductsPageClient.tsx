@@ -17,20 +17,19 @@ type Props = {
 
 export default function ProductsPageClient({ categoryId }: Props) {
   const { t } = useLanguage();
-
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [modalMode, setModalMode] = useState<ModalMode>(null);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
-  const productFields = [
+  const productFields = useMemo(() => [
     { name: "name", label: t.admin.nameEn, required: true },
     { name: "nameAr", label: t.admin.nameAr, required: true },
     { name: "description", label: t.admin.descEn, type: "textarea" as const },
     { name: "descriptionAr", label: t.admin.descAr, type: "textarea" as const },
     { name: "price", label: t.admin.price, type: "number" as const, required: true },
     { name: "image", label: t.admin.image, type: "image" as const },
-  ];
+  ], [t]);
 
   const fetchUrl = useMemo(() => {
     return categoryId ? `/api/products?categoryId=${categoryId}` : "/api/products";
@@ -67,10 +66,9 @@ export default function ProductsPageClient({ categoryId }: Props) {
 
         setProducts((prev) => prev.filter((p) => p.id !== selectedProduct.id));
       } else {
-        const priceValue =
-          typeof data.price === "string"
-            ? parseFloat(data.price)
-            : typeof data.price === "number"
+        const priceValue = typeof data.price === "string"
+          ? parseFloat(data.price)
+          : typeof data.price === "number"
             ? data.price
             : 0;
 
@@ -80,13 +78,11 @@ export default function ProductsPageClient({ categoryId }: Props) {
           price: priceValue,
         };
 
-        const url =
-          modalMode === "edit" && selectedProduct
-            ? `/api/products/${selectedProduct.id}`
-            : "/api/products";
+        const url = modalMode === "edit" && selectedProduct
+          ? `/api/products/${selectedProduct.id}`
+          : "/api/products";
 
         const method = modalMode === "edit" ? "PUT" : "POST";
-
         const res = await fetch(url, {
           method,
           headers: { "Content-Type": "application/json" },
@@ -104,6 +100,9 @@ export default function ProductsPageClient({ categoryId }: Props) {
     } catch (error) {
       console.error("Failed:", error);
       await fetchProducts();
+    } finally {
+      setModalMode(null);
+      setSelectedProduct(null);
     }
   };
 
@@ -134,7 +133,14 @@ export default function ProductsPageClient({ categoryId }: Props) {
             return (
               <div key={product.id} className={styles.card}>
                 <div className={styles.imageWrapper}>
-                  <Image src={imgSrc} alt={product.name} fill className={styles.image} />
+                  <Image
+                    src={imgSrc}
+                    alt={product.name}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    className={styles.image}
+                    priority
+                  />
                 </div>
 
                 <div className={styles.content}>
@@ -179,8 +185,8 @@ export default function ProductsPageClient({ categoryId }: Props) {
           modalMode === "delete"
             ? t.admin.deleteProduct
             : modalMode === "edit"
-            ? t.admin.editProduct
-            : t.admin.addProduct
+              ? t.admin.editProduct
+              : t.admin.addProduct
         }
         fields={modalMode !== "delete" ? productFields : undefined}
         initialData={

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useLanguage } from "@/lib/LanguageContext";
 import styles from "./IntroScreen.module.scss";
+import { LoadingSkeleton } from "@/components";
 
 type Particle = {
   id: number;
@@ -23,6 +24,8 @@ export default function IntroScreen() {
   const router = useRouter();
   const { t } = useLanguage();
   const [phase, setPhase] = useState(0);
+  const [navigating, setNavigating] = useState(false);
+
 
   // ✅ Stable on every render + passes purity rule
   const particles: Particle[] = useMemo(() => {
@@ -46,11 +49,18 @@ export default function IntroScreen() {
       setTimeout(() => setPhase(2), 800),
       setTimeout(() => setPhase(3), 1600),
       setTimeout(() => setPhase(4), 2600),
-      setTimeout(() => router.push("/menu"), 3400),
+      setTimeout(() => {
+        setNavigating(true);
+        router.push("/menu");
+      }, 3400)
     ];
 
     return () => timers.forEach(clearTimeout);
   }, [router]);
+
+  if (navigating) {
+    return <LoadingSkeleton />;
+  }
 
   return (
     <div className={`${styles.intro} ${phase >= 4 ? styles.exit : ""}`}>

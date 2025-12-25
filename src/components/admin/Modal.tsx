@@ -103,15 +103,13 @@ export const Modal = ({ mode, title, fields = [], initialData, onClose, onSubmit
   return createPortal(
     <div className={styles.overlay} onClick={onClose}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-        <button title='close' className={styles.closeBtn} onClick={onClose}>
-          <X size={20} />
-        </button>
+        
 
         <h3>{title}</h3>
 
         {mode === 'delete' ? (
           <>
-            <p>{t.admin.confirmDelete} <strong>{initialName}</strong>?</p>
+            <p>{t.admin.confirmDelete} <strong>{initialName}</strong></p>
             <p className={styles.warning}>{t.admin.confirmDeleteMsg}</p>
             {error && <p className={styles.error}>{error}</p>}
             <div className={styles.buttons}>
@@ -130,7 +128,7 @@ export const Modal = ({ mode, title, fields = [], initialData, onClose, onSubmit
                 <div key={field.name} className={styles.imageUpload}>
                   {imagePreview && (
                     <div className={styles.preview}>
-                      <Image src={imagePreview} alt="Preview" width={200} height={150} />
+                      <Image src={imagePreview} alt="Preview" width={200} height={150} priority />
                     </div>
                   )}
                   <label className={styles.uploadBtn}>

@@ -21,7 +21,12 @@
   max-height: 90vh;
   overflow-y: auto;
   position: relative;
-
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
   h3 {
     color: var(--color-gold);
     margin: 0 0 1.5rem 0;

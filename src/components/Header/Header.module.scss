@@ -12,7 +12,7 @@
   align-items: center;
   padding: 0 map.get($spacings, xl);
   background: var(--color-bg);
-  border-bottom: 2px solid var(--color-border);
+  border-bottom: 4px solid var(--color-border);
   z-index: $z-header;
 
   @include respond(md) {
@@ -36,7 +36,7 @@
   padding: 0;
   background: transparent;
   color: var(--color-gold);
-  border: 2px solid var(--color-gold);
+  border: 3px solid var(--color-gold);
   cursor: pointer;
   transition: all $transition-base;
   font-family: "Montserrat", sans-serif;
@@ -54,7 +54,7 @@
     width: 32px;
     height: 32px;
     font-size: 10px;
-    border: 1px solid var(--color-gold);
+    border: 3px solid var(--color-gold);
 
     svg {
       width: 14px;
@@ -128,7 +128,7 @@
   gap: map.get($spacings, sm);
   padding: map.get($spacings, sm) map.get($spacings, md);
   color: var(--color-gold);
-  font-size: map.get($font-sizes, sm);
+  font-size: map.get($font-sizes, md);
   font-weight: $font-weight-medium;
   text-decoration: none;
   border-radius: map.get($radius, sm);
@@ -172,4 +172,3 @@
     opacity: 1;
   }
 }
-
