@@ -81,7 +81,7 @@
   border: 1px solid var(--color-border);
   color: var(--color-text);
   font-family: "Montserrat", sans-serif;
-  font-size: $font-sizes-sm;
+  font-size: $font-sizes-md;
   font-weight: $font-weight-bold;
   white-space: nowrap;
   cursor: pointer;
@@ -101,6 +101,6 @@
 
   @include respond(sm) {
     padding: 0.4rem 0.7rem;
-    font-size: $font-sizes-xs;
+    font-size: $font-sizes-sm;
   }
 }
