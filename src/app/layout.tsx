@@ -26,12 +26,16 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              try {
-                const theme = localStorage.getItem('theme');
-                if (theme === 'light' || theme === 'dark') {
-                  document.documentElement.setAttribute('data-theme', theme);
+              (function() {
+                try {
+                  const theme = localStorage.getItem('theme') || 'dark';
+                  if (theme === 'light' || theme === 'dark') {
+                    document.documentElement.setAttribute('data-theme', theme);
+                  }
+                } catch (e) {
+                  document.documentElement.setAttribute('data-theme', 'dark');
                 }
-              } catch (e) {}
+              })();
             `,
           }}
         />

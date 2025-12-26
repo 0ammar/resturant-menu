@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Image from "next/image";
 import { useLanguage } from "@/lib/LanguageContext";
 import styles from "./IntroScreen.module.scss";
@@ -21,27 +21,24 @@ function pseudoRandom(seed: number) {
   return x - Math.floor(x);
 }
 
+function generateParticles(): Particle[] {
+  return Array.from({ length: 30 }, (_, i) => ({
+    id: i,
+    left: pseudoRandom(i * 12.9898 + 0.1) * 100,
+    delay: pseudoRandom(i * 78.233 + 0.2) * 3,
+    duration: 3 + pseudoRandom(i * 39.346 + 0.3) * 5,
+  }));
+}
+
 export default function IntroScreen({ onFinish }: Props) {
   const { t } = useLanguage();
   const [phase, setPhase] = useState(0);
-  const [particles, setParticles] = useState<Particle[]>([]);
-  const [mounted, setMounted] = useState(false);
+  
+  // Generate particles once using useMemo
+  const particles = useMemo(() => generateParticles(), []);
+
 
   useEffect(() => {
-    const generated: Particle[] = Array.from({ length: 30 }, (_, i) => ({
-      id: i,
-      left: pseudoRandom(i * 12.9898 + 0.1) * 100,
-      delay: pseudoRandom(i * 78.233 + 0.2) * 3,
-      duration: 3 + pseudoRandom(i * 39.346 + 0.3) * 5,
-    }));
-    
-    setParticles(generated);
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (!mounted) return;
-
     const timers = [
       setTimeout(() => setPhase(1), 100),
       setTimeout(() => setPhase(2), 700),
@@ -50,9 +47,8 @@ export default function IntroScreen({ onFinish }: Props) {
       setTimeout(() => onFinish?.(), 3000),
     ];
     return () => timers.forEach(clearTimeout);
-  }, [mounted, onFinish]);
+  }, [ onFinish]);
 
-  if (!mounted) return null;
 
   return (
     <div className={`${styles.intro} ${phase >= 4 ? styles.exit : ""}`}>
@@ -90,19 +86,6 @@ export default function IntroScreen({ onFinish }: Props) {
             />
           </div>
         </div>
-
-        {phase >= 3 && (
-          <div className={styles.textContainer}>
-            <div className={styles.decorLine}>
-              <span className={styles.ornamentIcon}>◆</span>
-            </div>
-            <h1 className={styles.title}>{t.intro.welcome}</h1>
-            <div className={styles.decorLine}>
-              <span className={styles.ornamentIcon}>◆</span>
-            </div>
-            <p className={styles.subtitle}>{t.intro.subtitle}</p>
-          </div>
-        )}
       </div>
 
       <div className={`${styles.bottomOrnament} ${phase >= 3 ? styles.visible : ""}`}>

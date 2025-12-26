@@ -10,23 +10,32 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 map.get($spacings, xl);
+  padding: map.get($spacings, md) map.get($spacings, xl);
   background: var(--color-bg);
   border-bottom: 4px solid var(--color-border);
   z-index: $z-header;
 
   @include respond(md) {
-    padding: 0 map.get($spacings, md);
+    padding: map.get($spacings, md) map.get($spacings, md);
   }
 }
 
-.leftSection {
+.leftSection,
+.rightSection {
   display: flex;
   align-items: center;
   gap: map.get($spacings, sm);
+  flex: 1;
 }
 
-.burgerBtn,
+.leftSection {
+  justify-content: flex-start;
+}
+
+.rightSection {
+  justify-content: flex-end;
+}
+
 .iconBtn {
   display: flex;
   align-items: center;
@@ -37,6 +46,7 @@
   background: transparent;
   color: var(--color-gold);
   border: 3px solid var(--color-gold);
+  border-radius: map.get($radius, full);
   cursor: pointer;
   transition: all $transition-base;
   font-family: "Montserrat", sans-serif;
@@ -63,19 +73,14 @@
   }
 }
 
-.burgerBtn {
-  border-radius: map.get($radius, sm);
-}
-
-.iconBtn {
-  border-radius: map.get($radius, full);
-}
-
 .brand {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .logo {
@@ -86,89 +91,5 @@
   @include respond(sm) {
     width: 80px;
     height: 80px;
-  }
-}
-
-.menuOverlay {
-  position: fixed;
-  top: 85px;
-  left: map.get($spacings, xl);
-  width: 140px;
-  background: var(--menu-bg);
-  border: 1px solid var(--color-gold);
-  border-radius: map.get($radius, md);
-  z-index: 9999;
-
-  &.rtl {
-    left: auto;
-    right: map.get($spacings, xl);
-  }
-
-  @include respond(sm) {
-    top: 70px;
-    left: map.get($spacings, md);
-    width: 120px;
-
-    &.rtl {
-      right: map.get($spacings, md);
-    }
-  }
-}
-
-.menuContent {
-  padding: map.get($spacings, sm);
-  display: flex;
-  flex-direction: column;
-  gap: map.get($spacings, xs);
-}
-
-.socialLink {
-  display: flex;
-  align-items: center;
-  gap: map.get($spacings, sm);
-  padding: map.get($spacings, sm) map.get($spacings, md);
-  color: var(--color-gold);
-  font-size: map.get($font-sizes, md);
-  font-weight: $font-weight-medium;
-  text-decoration: none;
-  border-radius: map.get($radius, sm);
-  transition: all $transition-base;
-
-  &:hover {
-    background: rgba(249, 212, 87, 0.1);
-  }
-
-  svg {
-    flex-shrink: 0;
-    width: 16px;
-    height: 16px;
-  }
-
-  @include respond(sm) {
-    padding: map.get($spacings, xs) map.get($spacings, sm);
-    font-size: map.get($font-sizes, xs);
-    gap: map.get($spacings, xs);
-
-    svg {
-      width: 14px;
-      height: 14px;
-    }
-  }
-}
-
-.backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 9998;
-  animation: fadeIn 0.2s;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
   }
 }

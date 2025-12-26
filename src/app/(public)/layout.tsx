@@ -1,4 +1,4 @@
-import { Header } from '@/components';
+import { FloatingSocialMedia, Header } from '@/components';
 
 export default function PublicLayout({
   children,
@@ -9,6 +9,7 @@ export default function PublicLayout({
     <>
       <Header />
       {children}
+      <FloatingSocialMedia/>
     </>
   );
 }

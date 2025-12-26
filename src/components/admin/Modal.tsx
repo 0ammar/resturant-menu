@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { Upload, X } from 'lucide-react';
+import { Upload } from 'lucide-react';
 import { validateImage, compressImage, uploadImage } from '@/lib/imageUtils';
 import { useLanguage } from '@/lib/LanguageContext';
 import Image from 'next/image';
