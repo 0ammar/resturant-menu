@@ -84,7 +84,6 @@ export default function ProductsPageClient({ categoryId }: Props) {
         const method = modalMode === "edit" ? "PUT" : "POST";
         const res = await fetch(url, {
           method,
-          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
         });
 
@@ -98,6 +97,7 @@ export default function ProductsPageClient({ categoryId }: Props) {
       }
     } catch (error) {
       console.error("Failed:", error);
+      
       await fetchProducts();
     } finally {
       setModalMode(null);
