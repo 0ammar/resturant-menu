@@ -1,7 +1,7 @@
+import '@/styles/globals.scss';
 import { LanguageProvider } from '@/lib/LanguageContext';
 import { ThemeProvider } from '@/lib/ThemeContext';
 import type { Metadata } from 'next';
-import '@/styles/globals.scss';
 import { BrandProvider } from '@/lib/BrandContext';
 import BrandFavicon from '@/components/BrandFavicon';
 

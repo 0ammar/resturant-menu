@@ -1,5 +1,4 @@
 "use client";
-
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 interface BrandContextType {
@@ -31,22 +30,24 @@ export const BrandProvider = ({ children }: { children: ReactNode }) => {
         setIsLoading(false);
       }
     };
-
     fetchBrandSettings();
   }, []);
 
-  useEffect(() => {
-    if (!isLoading) {
-      document.documentElement.style.setProperty('--color-gold', primaryColor);
-      document.documentElement.style.setProperty('--color-gold-static', primaryColor);
-      
-      // Update favicon
-      const link = document.querySelector("link[rel*='icon']") as HTMLLinkElement;
-      if (link) {
-        link.href = logoUrl;
-      }
-    }
-  }, [primaryColor, logoUrl, isLoading]);
+useEffect(() => {
+  if (!isLoading) {
+    const root = document.documentElement;
+
+    root.style.setProperty('--primary', primaryColor);
+    root.style.setProperty('--primary-10', `color-mix(in srgb, ${primaryColor} 10%, transparent)`);
+    root.style.setProperty('--primary-20', `color-mix(in srgb, ${primaryColor} 20%, transparent)`);
+    root.style.setProperty('--primary-40', `color-mix(in srgb, ${primaryColor} 40%, transparent)`);
+    root.style.setProperty('--primary-70', `color-mix(in srgb, ${primaryColor} 70%, transparent)`);
+
+    const link = document.querySelector("link[rel*='icon']") as HTMLLinkElement;
+    if (link) link.href = logoUrl;
+  }
+}, [primaryColor, logoUrl, isLoading]);
+
 
   const updateBrandSettings = async (settings: { primaryColor?: string; logoUrl?: string }) => {
     if (settings.primaryColor) setPrimaryColor(settings.primaryColor);

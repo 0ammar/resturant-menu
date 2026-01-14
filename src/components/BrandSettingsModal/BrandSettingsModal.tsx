@@ -19,6 +19,7 @@ export const BrandSettingsModal = ({ isOpen, onClose }: BrandSettingsModalProps)
     const [logoFile, setLogoFile] = useState<File | null>(null);
     const [loading, setLoading] = useState(false);
     const [mounted, setMounted] = useState(false);
+    const [error, setError] = useState('');
 
     useEffect(() => setMounted(true), []);
     useEffect(() => {
@@ -31,15 +32,19 @@ export const BrandSettingsModal = ({ isOpen, onClose }: BrandSettingsModalProps)
         if (file) {
             setLogoFile(file);
             setLogoPreview(URL.createObjectURL(file));
+            setError('');
         }
     };
 
     const handleSave = async () => {
         setLoading(true);
+        setError('');
+        
         try {
             let newLogoUrl = logoUrl;
 
             if (logoFile) {
+                console.log('Uploading logo...');
                 const formData = new FormData();
                 formData.append('logo', logoFile);
 
@@ -48,13 +53,18 @@ export const BrandSettingsModal = ({ isOpen, onClose }: BrandSettingsModalProps)
                     body: formData,
                 });
 
-                if (!uploadRes.ok) throw new Error('Logo upload failed');
+                if (!uploadRes.ok) {
+                    const errorData = await uploadRes.json();
+                    throw new Error(errorData.error || 'Logo upload failed');
+                }
 
                 const uploadData = await uploadRes.json();
                 newLogoUrl = uploadData.url;
+                console.log('Logo uploaded:', newLogoUrl);
             }
 
             // Save brand settings
+            console.log('Saving settings...');
             const res = await fetch('/api/brand-settings', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -64,13 +74,24 @@ export const BrandSettingsModal = ({ isOpen, onClose }: BrandSettingsModalProps)
                 }),
             });
 
-            if (!res.ok) throw new Error('Failed to save settings');
+            if (!res.ok) {
+                const errorData = await res.json();
+                throw new Error(errorData.error || 'Failed to save settings');
+            }
 
+            console.log('Settings saved successfully');
             updateBrandSettings({ primaryColor: color, logoUrl: newLogoUrl });
+            
+            // Apply color immediately
+            document.documentElement.style.setProperty('--primary', color);
+            
             onClose();
+            
         } catch (error) {
             console.error('Save error:', error);
-            alert('Failed to save settings');
+            const errorMessage = error instanceof Error ? error.message : 'Failed to save settings';
+            setError(errorMessage);
+            alert(errorMessage);
         } finally {
             setLoading(false);
         }
@@ -86,6 +107,20 @@ export const BrandSettingsModal = ({ isOpen, onClose }: BrandSettingsModalProps)
                 </button>
 
                 <h2>Brand Settings</h2>
+
+                {error && (
+                    <div style={{
+                        padding: '0.75rem',
+                        marginBottom: '1rem',
+                        background: 'rgba(239, 68, 68, 0.1)',
+                        border: '1px solid rgba(239, 68, 68, 0.3)',
+                        borderRadius: '8px',
+                        color: '#ef4444',
+                        fontSize: '0.875rem'
+                    }}>
+                        {error}
+                    </div>
+                )}
 
                 <div className={styles.section}>
                     <label>
