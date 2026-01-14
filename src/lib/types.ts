@@ -15,6 +15,11 @@ export interface Product {
   categoryId: string;
 }
 
+export interface BrandSettings {
+  primaryColor: string;
+  logoUrl: string;
+}
+
 export type Language = 'en' | 'ar';
 
 export type MenuItem = Product;
