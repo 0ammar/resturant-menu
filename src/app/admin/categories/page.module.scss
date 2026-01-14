@@ -20,7 +20,7 @@
   margin-bottom: $spacings-xxl;
 
   h2 {
-    color: var(--color-gold);
+    color: var(--primary);
     font-size: $font-sizes-xxl;
     font-weight: $font-weight-bold;
     margin: 0;
@@ -39,8 +39,8 @@
   display: flex;
   align-items: center;
   gap: $spacings-xs;
-  background: var(--color-gold);
-  color: var(--color-black);
+  background: var(--primary);
+  color: var(--color-button-text);
   border: none;
   padding: $spacings-md $spacings-lg;
   border-radius: map.get($radius, md);
@@ -51,7 +51,7 @@
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(249, 212, 87, 0.4);
+    box-shadow: 0 6px 20px var(--primary-40);
   }
 
   &:active {
@@ -100,8 +100,8 @@
 
   &:hover {
     transform: translateY(-8px);
-    border-color: var(--color-gold);
-    box-shadow: 0 12px 32px rgba(249, 212, 87, 0.25);
+    border-color: var(--primary);
+    box-shadow: 0 12px 32px var(--primary-20);
   }
 
   h3 {
@@ -137,9 +137,10 @@
   gap: $spacings-sm;
 
   button {
-    background: transparent;
-    border: 1px solid var(--color-border);
-    color: var(--color-gold);
+    background: var(--primary-20);
+    border-color: var(--primary);
+
+    color: var(--primary);
     width: 40px;
     height: 40px;
     border-radius: map.get($radius, full);
@@ -203,7 +204,12 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(110deg, transparent 0%, var(--shimmer-mid) 50%, transparent 100%);
+    background: linear-gradient(
+      110deg,
+      transparent 0%,
+      var(--shimmer-mid) 50%,
+      transparent 100%
+    );
     animation: shimmer 1.8s ease-in-out infinite;
   }
 
@@ -225,7 +231,12 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(110deg, transparent 0%, var(--shimmer-mid) 50%, transparent 100%);
+    background: linear-gradient(
+      110deg,
+      transparent 0%,
+      var(--shimmer-mid) 50%,
+      transparent 100%
+    );
     animation: shimmer 1.8s ease-in-out infinite;
   }
 
@@ -270,7 +281,12 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(110deg, transparent 0%, var(--shimmer-mid) 50%, transparent 100%);
+    background: linear-gradient(
+      110deg,
+      transparent 0%,
+      var(--shimmer-mid) 50%,
+      transparent 100%
+    );
     animation: shimmer 1.8s ease-in-out infinite;
   }
 }

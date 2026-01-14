@@ -15,11 +15,11 @@
   background: var(--color-card-bg);
   padding: $spacings-xxl * 1.5;
   border-radius: map.get($radius, xl);
-  border: 3px solid var(--color-gold);
+  border: 3px solid var(--primary);
   width: 100%;
   max-width: 450px;
   text-align: center;
-  box-shadow: 0 20px 60px rgba(249, 212, 87, 0.3);
+  box-shadow: 0 20px 60px var(--primary-40);
 
   @include respond(sm) {
     padding: $spacings-xxl;
@@ -37,7 +37,7 @@
   width: 120px;
   height: 120px;
   object-fit: contain;
-  filter: drop-shadow(0 8px 16px rgba(249, 212, 87, 0.4));
+  filter: drop-shadow(0 8px 16px var(--primary-40));
 
   @include respond(sm) {
     width: 100px;
@@ -46,11 +46,11 @@
 }
 
 .h2 {
-  color: var(--color-gold);
+  color: var(--primary);
   margin: 0 0 $spacings-xxl 0;
   font-size: $font-sizes-xxl;
   font-weight: $font-weight-bold;
-  text-shadow: 0 2px 8px rgba(249, 212, 87, 0.3);
+  text-shadow: 0 2px 8px var(--primary-30, var(--primary-20));
 
   @include respond(sm) {
     font-size: $font-sizes-xl;
@@ -79,9 +79,9 @@
 
   &:focus {
     outline: none;
-    border-color: var(--color-gold);
+    border-color: var(--primary);
     background: var(--input-focus-bg);
-    box-shadow: 0 0 0 4px rgba(249, 212, 87, 0.15);
+    box-shadow: 0 0 0 4px var(--primary-10);
   }
 
   &:disabled {
@@ -96,8 +96,8 @@
 }
 
 .button {
-  background: var(--color-gold);
-  color: var(--color-black);
+  background: var(--primary);
+  color: var(--color-button-text);
   font-weight: $font-weight-bold;
   border: none;
   border-radius: map.get($radius, md);
@@ -109,7 +109,7 @@
 
   &:hover:not(:disabled) {
     transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(249, 212, 87, 0.5);
+    box-shadow: 0 8px 24px var(--primary-50, var(--primary-40));
   }
 
   &:active:not(:disabled) {

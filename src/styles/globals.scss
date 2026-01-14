@@ -4,6 +4,13 @@
 
 :root {
   --color-gold: #f9d457;
+  --primary: var(--color-gold);
+
+  --primary-10: color-mix(in srgb, var(--primary) 10%, transparent);
+  --primary-20: color-mix(in srgb, var(--primary) 20%, transparent);
+  --primary-40: color-mix(in srgb, var(--primary) 40%, transparent);
+  --primary-70: color-mix(in srgb, var(--primary) 70%, transparent);
+
   --color-black: #000000;
   --color-white: #ffffff;
   --color-bg: #000000;
@@ -12,10 +19,10 @@
   --color-border: rgba(249, 212, 87, 0.3);
   --color-button-bg: #f9d457;
   --color-button-text: #000000;
-  
+
   --text-muted: rgba(255, 255, 255, 0.6);
   --text-dim: rgba(255, 255, 255, 0.7);
-  
+
   --modal-bg: linear-gradient(145deg, #1a1a1a, #0f0f0f);
   --modal-overlay: rgba(0, 0, 0, 0.8);
   --admin-bg: rgba(255, 255, 255, 0.05);
@@ -24,7 +31,7 @@
   --cancel-bg: rgba(255, 255, 255, 0.05);
   --cancel-border: rgba(255, 255, 255, 0.2);
   --cancel-hover-bg: rgba(255, 255, 255, 0.1);
-  
+
   --skeleton-bg: rgba(255, 255, 255, 0.05);
   --skeleton-border: rgba(249, 212, 87, 0.2);
   --skeleton-card-bg: rgba(255, 255, 255, 0.03);
@@ -36,13 +43,13 @@
   --skeleton-chip-bg: rgba(255, 255, 255, 0.05);
   --skeleton-nav-bg: transparent;
   --shimmer-mid: rgba(255, 255, 255, 0.1);
-  
+
   --intro-bg-center: #1a1a1a;
   --intro-bg-edge: #000000;
   --curtain-dark: #0a0a0a;
   --curtain-mid: #1a1a1a;
   --intro-subtitle: rgba(255, 255, 255, 0.8);
-  
+
   color-scheme: dark;
 }
 
@@ -51,10 +58,10 @@
   --color-text: #000000;
   --color-card-bg: rgba(0, 0, 0, 0.03);
   --color-border: rgba(249, 212, 87, 0.4);
-  
+
   --text-muted: rgba(0, 0, 0, 0.6);
   --text-dim: rgba(0, 0, 0, 0.7);
-  
+
   --modal-bg: linear-gradient(145deg, #f5f5f5, #e8e8e8);
   --modal-overlay: rgba(0, 0, 0, 0.5);
   --admin-bg: rgba(0, 0, 0, 0.03);
@@ -63,7 +70,7 @@
   --cancel-bg: rgba(0, 0, 0, 0.03);
   --cancel-border: rgba(0, 0, 0, 0.2);
   --cancel-hover-bg: rgba(0, 0, 0, 0.08);
-  
+
   --skeleton-bg: rgba(0, 0, 0, 0.05);
   --skeleton-border: rgba(249, 212, 87, 0.3);
   --skeleton-card-bg: rgba(0, 0, 0, 0.02);
@@ -75,13 +82,13 @@
   --skeleton-chip-bg: rgba(0, 0, 0, 0.05);
   --skeleton-nav-bg: rgba(0, 0, 0, 0.02);
   --shimmer-mid: rgba(255, 255, 255, 0.4);
-  
+
   --intro-bg-center: #f5f5f5;
   --intro-bg-edge: #ffffff;
   --curtain-dark: #e0e0e0;
   --curtain-mid: #f0f0f0;
   --intro-subtitle: rgba(0, 0, 0, 0.8);
-  
+
   color-scheme: light;
 }
 
@@ -118,14 +125,20 @@ body::-webkit-scrollbar {
   padding: 0;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  
+
   &::-webkit-scrollbar {
     display: none;
   }
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: "IBM Plex Sans Arabic", "Plus Jakarta Sans", system-ui, sans-serif;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "IBM Plex Sans Arabic", "Plus Jakarta Sans", system-ui,
+    sans-serif;
   line-height: 1.2;
 }
 
@@ -140,7 +153,8 @@ button {
   cursor: pointer;
 }
 
-ul, ol {
+ul,
+ol {
   list-style: none;
 }
 

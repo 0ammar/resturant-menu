@@ -23,12 +23,13 @@
   position: relative;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  
+
   &::-webkit-scrollbar {
     display: none;
   }
+
   h3 {
-    color: var(--color-gold);
+    color: var(--primary);
     margin: 0 0 1.5rem 0;
     font-size: $font-sizes-xl;
   }
@@ -54,7 +55,7 @@
 
     &:focus {
       outline: none;
-      border-color: var(--color-gold);
+      border-color: var(--primary);
       background: var(--input-focus-bg);
     }
 
@@ -74,7 +75,7 @@
   position: absolute;
   top: 1rem;
   right: 1rem;
-  background: rgba(249, 212, 87, 0.1);
+  background: var(--primary-10);
   border: 1px solid var(--color-border);
   border-radius: $radius-full;
   width: 32px;
@@ -82,12 +83,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-gold);
+  color: var(--primary);
   cursor: pointer;
   transition: all $transition-base;
 
   &:hover {
-    background: var(--color-gold);
+    background: var(--primary);
     color: var(--color-button-text);
   }
 }
@@ -116,7 +117,7 @@
 }
 
 .confirm {
-  background: var(--color-button-bg);
+  background: var(--primary);
   color: var(--color-button-text);
 
   &:hover:not(:disabled) {
@@ -141,7 +142,7 @@
 }
 
 .warning {
-  color: rgba(249, 212, 87, 0.8) !important;
+  color: var(--primary-70) !important;
   font-size: $font-sizes-sm;
   margin: 0.5rem 0 1rem 0 !important;
 }
@@ -169,16 +170,16 @@
   justify-content: center;
   gap: 0.5rem;
   padding: 0.75rem;
-  background: rgba(249, 212, 87, 0.1);
-  border: 1px dashed rgba(249, 212, 87, 0.4);
+  background: var(--primary-10);
+  border: 1px dashed var(--primary-40);
   border-radius: $radius-sm;
-  color: var(--color-gold);
+  color: var(--primary);
   cursor: pointer;
   transition: all $transition-base;
 
   &:hover {
-    background: rgba(249, 212, 87, 0.15);
-    border-color: var(--color-gold);
+    background: var(--primary-20);
+    border-color: var(--primary);
   }
 
   span {

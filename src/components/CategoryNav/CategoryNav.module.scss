@@ -32,16 +32,16 @@
   width: 32px;
   height: 32px;
   padding: 0;
-  background: rgba(249, 212, 87, 0.1);
-  border: 1px solid rgba(249, 212, 87, 0.4);
+  background: var(--primary-10);
+  border: 1px solid var(--primary-40);
   border-radius: $radius-full;
-  color: var(--color-gold);
+  color: var(--primary);
   cursor: pointer;
   flex-shrink: 0;
   transition: all $transition-base;
 
   &:hover {
-    background: var(--color-gold);
+    background: var(--primary);
     color: var(--color-button-text);
   }
 
@@ -91,14 +91,14 @@
   flex-shrink: 0;
 
   &:hover {
-    background: rgba(249, 212, 87, 0.12);
-    border-color: rgba(249, 212, 87, 0.7);
+    background: var(--primary-10);
+    border-color: var(--primary-70);
   }
 
   &[data-active="true"] {
-    background: var(--color-gold);
+    background: var(--primary);
     color: var(--color-button-text);
-    border-color: var(--color-gold);
+    border-color: var(--primary);
   }
 
   @include respond(sm) {

@@ -78,7 +78,7 @@
     margin-bottom: $spacings-sm;
 
     svg {
-      color: var(--color-gold);
+      color: var(--primary);
     }
   }
 }
@@ -96,12 +96,12 @@
     background: var(--admin-input-bg);
     color: var(--color-text);
     font-size: $font-sizes-md;
-    font-family: 'Courier New', monospace;
+    font-family: "Courier New", monospace;
     transition: all $transition-base;
 
     &:focus {
       outline: none;
-      border-color: var(--color-gold);
+      border-color: var(--primary);
       background: var(--input-focus-bg);
     }
   }
@@ -169,7 +169,7 @@
   transition: all $transition-base;
 
   svg {
-    color: var(--color-gold);
+    color: var(--primary);
   }
 
   &:hover {
@@ -215,12 +215,12 @@
 }
 
 .save {
-  background: var(--color-gold);
+  background: var(--primary);
   color: var(--color-button-text);
 
   &:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(249, 212, 87, 0.3);
+    box-shadow: 0 4px 12px var(--primary-30, rgba(0, 0, 0, 0.2));
   }
 }
 

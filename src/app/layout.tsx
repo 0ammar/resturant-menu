@@ -1,8 +1,8 @@
 import { LanguageProvider } from '@/lib/LanguageContext';
 import { ThemeProvider } from '@/lib/ThemeContext';
-import { BrandProvider } from '@/lib/BrandContext';
 import type { Metadata } from 'next';
 import '@/styles/globals.scss';
+import { BrandProvider } from '@/lib/BrandContext';
 
 export const metadata: Metadata = {
   title: {
@@ -16,17 +16,39 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  const theme = localStorage.getItem('theme') || 'dark';
+                  if (theme === 'light' || theme === 'dark') {
+                    document.documentElement.setAttribute('data-theme', theme);
+                  }
+                } catch (e) {
+                  document.documentElement.setAttribute('data-theme', 'dark');
+                }
+              })();
+            `,
+          }}
+        />
+      </head>
       <body>
-        <LanguageProvider>
-          <ThemeProvider>
-            <BrandProvider>
+        <ThemeProvider>
+          <BrandProvider>
+            <LanguageProvider>
               {children}
-            </BrandProvider>
-          </ThemeProvider>
-        </LanguageProvider>
+            </LanguageProvider>
+          </BrandProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
