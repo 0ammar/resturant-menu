@@ -4,12 +4,13 @@ import { useEffect, useState, useMemo } from "react";
 import Image from "next/image";
 import { useLanguage } from "@/lib/LanguageContext";
 import styles from "./IntroScreen.module.scss";
+import { useBrand } from "@/lib/BrandContext";
 
-type Props = { 
+type Props = {
   onFinish?: () => void;
 };
 
-type Particle = { 
+type Particle = {
   id: number;
   left: number;
   delay: number;
@@ -33,7 +34,9 @@ function generateParticles(): Particle[] {
 export default function IntroScreen({ onFinish }: Props) {
   const { t } = useLanguage();
   const [phase, setPhase] = useState(0);
-  
+  const { logoUrl, isLoading } = useBrand();
+
+
   // Generate particles once using useMemo
   const particles = useMemo(() => generateParticles(), []);
 
@@ -47,14 +50,14 @@ export default function IntroScreen({ onFinish }: Props) {
       setTimeout(() => onFinish?.(), 3000),
     ];
     return () => timers.forEach(clearTimeout);
-  }, [ onFinish]);
+  }, [onFinish]);
 
 
   return (
     <div className={`${styles.intro} ${phase >= 4 ? styles.exit : ""}`}>
       <div className={`${styles.curtainLeft} ${phase >= 1 ? styles.open : ""}`} />
       <div className={`${styles.curtainRight} ${phase >= 1 ? styles.open : ""}`} />
-      
+
       <div className={styles.particles}>
         {particles.map((p) => (
           <div
@@ -76,14 +79,17 @@ export default function IntroScreen({ onFinish }: Props) {
           <div className={styles.logoRing} />
           <div className={styles.logoGlow} />
           <div className={styles.logoWrapper}>
-            <Image
-              src="/logo.png"
-              alt={t.header.logoAlt}
-              width={280}
-              height={280}
-              className={styles.logo}
-              priority
-            />
+            {!isLoading && (
+              <Image
+                src={logoUrl}
+                alt={t.header.logoAlt}
+                width={280}
+                height={280}
+                className={styles.logo}
+                priority
+              />
+            )}
+
           </div>
         </div>
       </div>

@@ -3,6 +3,7 @@ import { ThemeProvider } from '@/lib/ThemeContext';
 import type { Metadata } from 'next';
 import '@/styles/globals.scss';
 import { BrandProvider } from '@/lib/BrandContext';
+import BrandFavicon from '@/components/BrandFavicon';
 
 export const metadata: Metadata = {
   title: {
@@ -10,10 +11,6 @@ export const metadata: Metadata = {
     default: 'Restaurant Menu',
   },
   description: 'The best restaurant in town',
-  icons: {
-    icon: '/logo.png',
-    shortcut: '/logo.png',
-  },
 };
 
 export default function RootLayout({
@@ -44,6 +41,7 @@ export default function RootLayout({
       <body>
         <ThemeProvider>
           <BrandProvider>
+            <BrandFavicon />
             <LanguageProvider>
               {children}
             </LanguageProvider>

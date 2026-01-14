@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useLanguage } from '@/lib/LanguageContext';
 import styles from './page.module.scss';
+import { useBrand } from '@/lib/BrandContext';
 
 export default function AdminLogin() {
   const { t } = useLanguage();
@@ -13,6 +14,8 @@ export default function AdminLogin() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { logoUrl, isLoading } = useBrand();
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,14 +45,16 @@ export default function AdminLogin() {
     <div className={styles.login}>
       <div className={styles.card}>
         <div className={styles.logoWrapper}>
-          <Image
-            src="/logo.png"
-            alt={t.header.logoAlt}
-            width={120}
-            height={120}
-            className={styles.logo}
-            priority
-          />
+          {!isLoading && (
+            <Image
+              src={logoUrl}
+              alt={t.header.logoAlt}
+              width={120}
+              height={120}
+              className={styles.logo}
+              priority
+            />
+          )}
         </div>
 
         <h2 className={styles.h2}>{t.admin.login}</h2>

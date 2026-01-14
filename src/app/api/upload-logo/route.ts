@@ -1,15 +1,8 @@
 import { NextResponse } from "next/server";
-import { writeFile, unlink, mkdir } from "fs/promises";
-import { existsSync } from "fs";
 import { kv } from "@vercel/kv";
-import path from "path";
+import { put, del } from "@vercel/blob";
 
 const BRAND_KEY = "brand_settings";
-
-type BrandSettings = {
-  primaryColor?: string;
-  logoUrl?: string;
-};
 
 export async function POST(request: Request) {
   try {
@@ -31,56 +24,29 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Invalid file type" }, { status: 400 });
     }
 
-    const oldSettingsRaw = await kv.get(BRAND_KEY);
-    const oldSettings =
-      typeof oldSettingsRaw === "object" && oldSettingsRaw !== null
-        ? (oldSettingsRaw as BrandSettings)
-        : {};
+    const oldSettings = (await kv.get(BRAND_KEY)) as { logoUrl?: string } | null;
 
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-
-    const uploadDir = path.join(process.cwd(), "public/brand");
-    if (!existsSync(uploadDir)) {
-      await mkdir(uploadDir, { recursive: true });
-    }
-
-    const extension = file.name.split(".").pop();
-    const filename = `logo-${Date.now()}.${extension}`;
-    const filepath = path.join(uploadDir, filename);
-
-    await writeFile(filepath, buffer);
-
-    const newLogoUrl = `/brand/${filename}`;
-
-    if (
-      oldSettings.logoUrl &&
-      oldSettings.logoUrl !== "/logo.png" &&
-      oldSettings.logoUrl.startsWith("/brand/")
-    ) {
-      const oldFilename = oldSettings.logoUrl.split("/").pop();
-      if (oldFilename) {
-        const oldFilepath = path.join(uploadDir, oldFilename);
-        if (existsSync(oldFilepath)) {
-          await unlink(oldFilepath);
-        }
+    const blob = await put(
+      `brand/logo-${Date.now()}`,
+      await file.arrayBuffer(),
+      {
+        access: "public",
+        contentType: file.type,
       }
+    );
+
+    if (oldSettings?.logoUrl?.includes("vercel-storage.com")) {
+      await del(oldSettings.logoUrl).catch(() => {});
     }
 
     await kv.set(BRAND_KEY, {
       ...oldSettings,
-      logoUrl: newLogoUrl,
+      logoUrl: blob.url,
     });
 
-    return NextResponse.json({ url: newLogoUrl });
-  } catch (err: unknown) {
-    if (err instanceof Error) {
-      console.error("[UploadLogo]", err.message);
-    }
-
-    return NextResponse.json(
-      { error: "Upload failed" },
-      { status: 500 }
-    );
+    return NextResponse.json({ url: blob.url });
+  } catch (err) {
+    console.error("[UploadLogo]", err);
+    return NextResponse.json({ error: "Upload failed" }, { status: 500 });
   }
 }
