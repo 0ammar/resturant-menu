@@ -36,9 +36,6 @@ export default function IntroScreen({ onFinish }: Props) {
   const [phase, setPhase] = useState(0);
   const { logoUrl, isLoading } = useBrand();
 
-  if (isLoading) {
-    return null
-  }
   const particles = useMemo(() => generateParticles(), []);
 
 
@@ -53,6 +50,9 @@ export default function IntroScreen({ onFinish }: Props) {
     return () => timers.forEach(clearTimeout);
   }, [onFinish]);
 
+  if (isLoading) {
+    return null
+  }
 
   return (
     <div className={`${styles.intro} ${phase >= 4 ? styles.exit : ""}`}>
