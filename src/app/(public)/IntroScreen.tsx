@@ -92,13 +92,6 @@ export default function IntroScreen({ onFinish }: Props) {
           </div>
         </div>
       </div>
-
-      <div className={`${styles.bottomOrnament} ${phase >= 3 ? styles.visible : ""}`}>
-        <svg width="300" height="30" viewBox="0 0 300 30">
-          <path d="M0,15 Q75,5 150,15 T300,15" stroke="currentColor" strokeWidth="2" fill="none" />
-          <circle cx="150" cy="15" r="3" fill="currentColor" />
-        </svg>
-      </div>
     </div>
   );
 }

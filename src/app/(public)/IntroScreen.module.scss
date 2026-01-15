@@ -211,27 +211,6 @@
   filter: drop-shadow(0 10px 20px var(--primary-40));
 }
 
-/* ================= ORNAMENT ================= */
-
-.bottomOrnament {
-  position: absolute;
-  bottom: 50px;
-  left: 50%;
-  transform: translateX(-50%);
-  opacity: 0;
-  transition: opacity 600ms $ease-smooth;
-
-  svg {
-    color: var(--primary);
-    filter: drop-shadow(0 0 10px var(--primary-40));
-  }
-
-  &.visible {
-    opacity: 1;
-    animation: ornamentFloat 3s ease-in-out infinite;
-  }
-}
-
 /* ================= ANIMATIONS ================= */
 
 @keyframes float {
