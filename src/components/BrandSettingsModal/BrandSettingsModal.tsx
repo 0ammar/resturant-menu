@@ -20,18 +20,23 @@ export const BrandSettingsModal = ({ isOpen, onClose }: BrandSettingsModalProps)
     const [loading, setLoading] = useState(false);
     const [mounted, setMounted] = useState(false);
     const [error, setError] = useState('');
+    const [isLocalPreview, setIsLocalPreview] = useState(false);
 
     useEffect(() => setMounted(true), []);
+    
     useEffect(() => {
         setColor(primaryColor);
         setLogoPreview(logoUrl);
+        setIsLocalPreview(false);
     }, [primaryColor, logoUrl]);
 
     const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
             setLogoFile(file);
-            setLogoPreview(URL.createObjectURL(file));
+            const previewUrl = URL.createObjectURL(file);
+            setLogoPreview(previewUrl);
+            setIsLocalPreview(true);
             setError('');
         }
     };
@@ -83,15 +88,22 @@ export const BrandSettingsModal = ({ isOpen, onClose }: BrandSettingsModalProps)
             updateBrandSettings({ primaryColor: color, logoUrl: newLogoUrl });
             
             // Apply color immediately
-            document.documentElement.style.setProperty('--primary', color);
+            const root = document.documentElement;
+            root.style.setProperty('--color-gold', color);
+            root.style.setProperty('--color-gold-static', color);
             
-            onClose();
+            // Clean up local preview URL
+            if (isLocalPreview && logoPreview.startsWith('blob:')) {
+                URL.revokeObjectURL(logoPreview);
+            }
+            
+            // Force page reload to apply new logo
+            window.location.reload();
             
         } catch (error) {
             console.error('Save error:', error);
             const errorMessage = error instanceof Error ? error.message : 'Failed to save settings';
             setError(errorMessage);
-            alert(errorMessage);
         } finally {
             setLoading(false);
         }
@@ -102,7 +114,7 @@ export const BrandSettingsModal = ({ isOpen, onClose }: BrandSettingsModalProps)
     return createPortal(
         <div className={styles.overlay} onClick={onClose}>
             <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-                <button className={styles.closeBtn} onClick={onClose}>
+                <button className={styles.closeBtn} onClick={onClose} disabled={loading}>
                     <X size={20} />
                 </button>
 
@@ -134,6 +146,7 @@ export const BrandSettingsModal = ({ isOpen, onClose }: BrandSettingsModalProps)
                             onChange={(e) => setColor(e.target.value)}
                             placeholder="#f9d457"
                             maxLength={7}
+                            disabled={loading}
                         />
                         <input
                             title='Color'
@@ -141,6 +154,7 @@ export const BrandSettingsModal = ({ isOpen, onClose }: BrandSettingsModalProps)
                             value={color}
                             onChange={(e) => setColor(e.target.value)}
                             className={styles.colorPicker}
+                            disabled={loading}
                         />
                         <div
                             className={styles.colorPreview}
@@ -157,12 +171,27 @@ export const BrandSettingsModal = ({ isOpen, onClose }: BrandSettingsModalProps)
                     <div className={styles.logoUpload}>
                         {logoPreview && (
                             <div className={styles.logoPreview}>
-                                <Image
-                                    src={logoPreview}
-                                    alt="Logo"
-                                    width={100}
-                                    height={100}
-                                />
+                                {isLocalPreview ? (
+                                    // Use img for local blob URLs
+                                    <img
+                                        src={logoPreview}
+                                        alt="Logo Preview"
+                                        style={{
+                                            maxWidth: '100px',
+                                            maxHeight: '100px',
+                                            objectFit: 'contain'
+                                        }}
+                                    />
+                                ) : (
+                                    // Use Next Image for remote URLs
+                                    <Image
+                                        src={logoPreview}
+                                        alt="Logo"
+                                        width={100}
+                                        height={100}
+                                        style={{ objectFit: 'contain' }}
+                                    />
+                                )}
                             </div>
                         )}
                         <label className={styles.uploadBtn}>
@@ -172,6 +201,7 @@ export const BrandSettingsModal = ({ isOpen, onClose }: BrandSettingsModalProps)
                                 type="file"
                                 accept="image/png,image/jpeg,image/jpg,image/svg+xml"
                                 onChange={handleLogoChange}
+                                disabled={loading}
                                 hidden
                             />
                         </label>

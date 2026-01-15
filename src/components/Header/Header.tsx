@@ -1,7 +1,6 @@
 "use client";
 
 import { Sun, Moon, Phone } from "lucide-react";
-import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useLanguage } from "@/lib/LanguageContext";
@@ -29,7 +28,7 @@ export const Header = () => {
       </div>
 
       <Link href="/" className={styles.brand}>
-        {!isLoading && (
+        {!isLoading && logoUrl && (
           <Image
             src={logoUrl}
             alt={t.header.logoAlt}
@@ -37,6 +36,7 @@ export const Header = () => {
             height={100}
             className={styles.logo}
             priority
+            unoptimized={logoUrl.startsWith('blob:')}
           />
         )}
       </Link>

@@ -19,7 +19,11 @@ export async function POST(request: Request) {
       );
     }
 
-    console.log("[UploadLogo] File received:", file.name, file.type, file.size);
+    console.log("[UploadLogo] File received:", {
+      name: file.name,
+      type: file.type,
+      size: file.size
+    });
 
     const allowedTypes = [
       "image/png",
@@ -31,7 +35,7 @@ export async function POST(request: Request) {
     if (!allowedTypes.includes(file.type)) {
       console.error("[UploadLogo] Invalid file type:", file.type);
       return NextResponse.json(
-        { error: `Invalid file type: ${file.type}. Allowed: PNG, JPG, SVG` },
+        { error: `Invalid file type. Allowed: PNG, JPG, SVG` },
         { status: 400 }
       );
     }
@@ -44,41 +48,58 @@ export async function POST(request: Request) {
       );
     }
 
+    // Check if token exists
+    if (!process.env.BLOB_READ_WRITE_TOKEN) {
+      console.error("[UploadLogo] BLOB_READ_WRITE_TOKEN not found");
+      return NextResponse.json(
+        { error: "Storage not configured. Please add BLOB_READ_WRITE_TOKEN environment variable." },
+        { status: 500 }
+      );
+    }
+
     console.log("[UploadLogo] Fetching old settings...");
-    const oldSettings = (await kv.get(BRAND_KEY)) as { logoUrl?: string } | null;
+    const oldSettings = (await kv.get(BRAND_KEY)) as { logoUrl?: string; primaryColor?: string } | null;
     console.log("[UploadLogo] Old settings:", oldSettings);
 
-    console.log("[UploadLogo] Uploading to Blob...");
+    console.log("[UploadLogo] Uploading to Blob Storage...");
     const arrayBuffer = await file.arrayBuffer();
-    const blob = await put(
-      `brand/logo-${Date.now()}.${file.name.split('.').pop()}`,
-      arrayBuffer,
-      {
-        access: "public",
-        contentType: file.type,
-      }
-    );
+    
+    const filename = `brand/logo-${Date.now()}.${file.name.split('.').pop()}`;
+    
+    const blob = await put(filename, arrayBuffer, {
+      access: "public",
+      contentType: file.type,
+      token: process.env.BLOB_READ_WRITE_TOKEN,
+    });
 
-    console.log("[UploadLogo] Blob uploaded:", blob.url);
+    console.log("[UploadLogo] Blob uploaded successfully:", blob.url);
 
     // Delete old logo if it exists in Vercel Blob
-    if (oldSettings?.logoUrl?.includes("vercel-storage.com")) {
+    if (oldSettings?.logoUrl && oldSettings.logoUrl.includes("vercel-storage.com")) {
       console.log("[UploadLogo] Deleting old logo:", oldSettings.logoUrl);
       try {
-        await del(oldSettings.logoUrl);
+        await del(oldSettings.logoUrl, {
+          token: process.env.BLOB_READ_WRITE_TOKEN,
+        });
+        console.log("[UploadLogo] Old logo deleted");
       } catch (delErr) {
         console.warn("[UploadLogo] Failed to delete old logo:", delErr);
       }
     }
 
     console.log("[UploadLogo] Updating KV with new URL...");
-    await kv.set(BRAND_KEY, {
-      ...oldSettings,
+    const newSettings = {
+      primaryColor: oldSettings?.primaryColor || '#f9d457',
       logoUrl: blob.url,
-    });
+    };
+    
+    await kv.set(BRAND_KEY, newSettings);
+    console.log("[UploadLogo] KV updated successfully");
 
-    console.log("[UploadLogo] Success!");
-    return NextResponse.json({ url: blob.url });
+    return NextResponse.json({ 
+      url: blob.url,
+      success: true 
+    });
 
   } catch (err) {
     console.error("[UploadLogo] Error:", err);
