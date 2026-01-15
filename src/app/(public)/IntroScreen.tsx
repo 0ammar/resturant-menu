@@ -36,8 +36,9 @@ export default function IntroScreen({ onFinish }: Props) {
   const [phase, setPhase] = useState(0);
   const { logoUrl, isLoading } = useBrand();
 
-
-  // Generate particles once using useMemo
+  if (isLoading) {
+    return null
+  }
   const particles = useMemo(() => generateParticles(), []);
 
 
@@ -79,16 +80,14 @@ export default function IntroScreen({ onFinish }: Props) {
           <div className={styles.logoRing} />
           <div className={styles.logoGlow} />
           <div className={styles.logoWrapper}>
-            {!isLoading && (
-              <Image
-                src={logoUrl}
-                alt={t.header.logoAlt}
-                width={280}
-                height={280}
-                className={styles.logo}
-                priority
-              />
-            )}
+            <Image
+              src={logoUrl}
+              alt={t.header.logoAlt}
+              width={280}
+              height={280}
+              className={styles.logo}
+              priority
+            />
 
           </div>
         </div>

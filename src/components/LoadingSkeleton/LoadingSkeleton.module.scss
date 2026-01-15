@@ -28,7 +28,7 @@
     gap: 0.4rem;
     max-width: 100%;
   }
-  
+
   @include respond(sm) {
     gap: 0.4rem;
   }
@@ -155,8 +155,8 @@
   height: auto;
   width: 38%;
   border-radius: map.get($radius, pill);
-  background: linear-gradient(135deg, rgba(249, 212, 87, 0.2), rgba(249, 212, 87, 0.1));
-  border: 1px solid rgba(249, 212, 87, 0.5);
+  background: linear-gradient(135deg, var(--primary-20), var(--primary-10));
+  border: 1px solid var(--primary-40);
   margin-top: 0.2rem;
   line-height: 1;
 
