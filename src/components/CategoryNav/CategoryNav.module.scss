@@ -3,7 +3,7 @@
 @use "@/styles/mixins" as *;
 
 .categoryNav {
-  padding: 1.5rem 0;
+  padding: 0 0 1rem;
   position: sticky;
   width: 100%;
   background: var(--nav-bg);
