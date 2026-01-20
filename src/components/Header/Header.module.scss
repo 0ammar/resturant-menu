@@ -12,7 +12,6 @@
   align-items: center;
   padding: map.get($spacings, md) map.get($spacings, xl);
   background: var(--color-bg);
-  border-bottom: 4px solid var(--primary-40);
   z-index: $z-header;
 
   @include respond(md) {
@@ -81,7 +80,7 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  padding: 4px 0;
+  padding: 8px 0;
 }
 
 .logo {
