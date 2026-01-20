@@ -17,6 +17,7 @@
 
   @include respond(md) {
     height: 56px;
+    padding: map.get($spacings, md) map.get($spacings, md);
   }
 }
 
@@ -45,7 +46,7 @@
   padding: 0;
   background: transparent;
   color: var(--primary);
-  border: 3px solid var(--primary);
+  border: 2.2px solid var(--primary);
   border-radius: map.get($radius, full);
   cursor: pointer;
   transition: all $transition-base;
@@ -84,10 +85,10 @@
 
 .logo {
   width: auto;
-  height: 70%;
+  height: 80%;
   object-fit: contain;
 
   @include respond(sm) {
-    height: 65%;
+    height: 75%;
   }
 }
