@@ -32,8 +32,8 @@ export const Header = () => {
           <Image
             src={logoUrl}
             alt={t.header.logoAlt}
-            width={100}
-            height={100}
+            width={300}
+            height={300}
             className={styles.logo}
             priority
             unoptimized={logoUrl.startsWith('blob:')}
