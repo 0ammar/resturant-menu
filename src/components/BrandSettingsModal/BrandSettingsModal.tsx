@@ -23,7 +23,7 @@ export const BrandSettingsModal = ({ isOpen, onClose }: BrandSettingsModalProps)
     const [isLocalPreview, setIsLocalPreview] = useState(false);
 
     useEffect(() => setMounted(true), []);
-    
+
     useEffect(() => {
         setColor(primaryColor);
         setLogoPreview(logoUrl);
@@ -44,39 +44,26 @@ export const BrandSettingsModal = ({ isOpen, onClose }: BrandSettingsModalProps)
     const handleSave = async () => {
         setLoading(true);
         setError('');
-        
+
         try {
             let newLogoUrl = logoUrl;
 
             if (logoFile) {
-                console.log('Uploading logo...');
                 const formData = new FormData();
                 formData.append('logo', logoFile);
-
-                const uploadRes = await fetch('/api/upload-logo', {
-                    method: 'POST',
-                    body: formData,
-                });
-
+                const uploadRes = await fetch('/api/upload-logo', { method: 'POST', body: formData });
                 if (!uploadRes.ok) {
                     const errorData = await uploadRes.json();
                     throw new Error(errorData.error || 'Logo upload failed');
                 }
-
                 const uploadData = await uploadRes.json();
                 newLogoUrl = uploadData.url;
-                console.log('Logo uploaded:', newLogoUrl);
             }
 
-            // Save brand settings
-            console.log('Saving settings...');
             const res = await fetch('/api/brand-settings', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    primaryColor: color,
-                    logoUrl: newLogoUrl,
-                }),
+                body: JSON.stringify({ primaryColor: color, logoUrl: newLogoUrl }),
             });
 
             if (!res.ok) {
@@ -84,31 +71,22 @@ export const BrandSettingsModal = ({ isOpen, onClose }: BrandSettingsModalProps)
                 throw new Error(errorData.error || 'Failed to save settings');
             }
 
-            console.log('Settings saved successfully');
+            // This now handles CSS vars internally
             updateBrandSettings({ primaryColor: color, logoUrl: newLogoUrl });
-            
-            // Apply color immediately
-            const root = document.documentElement;
-            root.style.setProperty('--color-gold', color);
-            root.style.setProperty('--color-gold-static', color);
-            
-            // Clean up local preview URL
+
             if (isLocalPreview && logoPreview.startsWith('blob:')) {
                 URL.revokeObjectURL(logoPreview);
             }
-            
-            // Force page reload to apply new logo
+
             window.location.reload();
-            
+
         } catch (error) {
-            console.error('Save error:', error);
             const errorMessage = error instanceof Error ? error.message : 'Failed to save settings';
             setError(errorMessage);
         } finally {
             setLoading(false);
         }
     };
-
     if (!isOpen || !mounted) return null;
 
     return createPortal(
