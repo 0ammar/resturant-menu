@@ -4,10 +4,10 @@ import { useEffect } from "react";
 import { useBrand } from "@/lib/BrandContext";
 
 export default function BrandFavicon() {
-  const { logoUrl, isLoading } = useBrand();
+  const { logoUrl } = useBrand();
 
   useEffect(() => {
-    if (isLoading || !logoUrl) return;
+    if ( !logoUrl) return;
 
     const updateIcon = (rel: string) => {
       let link = document.querySelector(`link[rel="${rel}"]`) as HTMLLinkElement;
@@ -24,7 +24,7 @@ export default function BrandFavicon() {
     updateIcon("icon");
     updateIcon("shortcut icon");
     updateIcon("apple-touch-icon");
-  }, [logoUrl, isLoading]);
+  }, [logoUrl]);
 
   return null;
 }

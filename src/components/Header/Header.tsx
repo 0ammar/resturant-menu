@@ -11,7 +11,7 @@ import styles from "./Header.module.scss";
 export const Header = () => {
   const { language, setLanguage, t } = useLanguage();
   const { theme, toggleTheme, mounted } = useTheme();
-  const { logoUrl, isLoading } = useBrand();
+  const { logoUrl } = useBrand();
 
   const toggleLanguage = () => setLanguage(language === "en" ? "ar" : "en");
 
@@ -28,7 +28,7 @@ export const Header = () => {
       </div>
 
       <Link href="/" className={styles.brand}>
-        {!isLoading && logoUrl && (
+        { logoUrl && (
           <Image
             src={logoUrl}
             alt={t.header.logoAlt}

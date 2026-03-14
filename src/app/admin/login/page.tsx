@@ -14,7 +14,7 @@ export default function AdminLogin() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const { logoUrl, isLoading } = useBrand();
+  const { logoUrl } = useBrand();
 
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -45,7 +45,6 @@ export default function AdminLogin() {
     <div className={styles.login}>
       <div className={styles.card}>
         <div className={styles.logoWrapper}>
-          {!isLoading && (
             <Image
               src={logoUrl}
               alt={t.header.logoAlt}
@@ -54,7 +53,6 @@ export default function AdminLogin() {
               className={styles.logo}
               priority
             />
-          )}
         </div>
 
         <h2 className={styles.h2}>{t.admin.login}</h2>
